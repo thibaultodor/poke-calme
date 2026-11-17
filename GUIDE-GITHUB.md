@@ -116,9 +116,10 @@ La liste des Pokémon et leur rareté sont dans
 bun run sprites:import
 ```
 
-L’import télécharge Idle et Walk, leurs durées, les métadonnées et les crédits
-depuis une révision fixe de SpriteCollab. Les animations sont découpées et
-orientées à l’écran. Les PNG d’origine ne sont pas retouchés.
+L’import télécharge Idle, Walk et Sleep, leurs durées, les métadonnées et les
+crédits depuis une révision fixe de SpriteCollab. Il prépare aussi les copies
+d’affichage avec des marges transparentes entre les images. Les PNG d’origine
+sont conservés. `bun run sprites:pad` régénère ces copies sans téléchargement.
 
 Les tests de parcours sont dans `scripts/check-browser.mjs`. Ils utilisent
 un micro simulé, contrôlent les interruptions et la reprise, le clavier,

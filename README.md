@@ -1,105 +1,199 @@
 # Poké Calme
 
-Une clairière Pokémon pour accompagner le travail calme en CP.
-Adaptation indépendante de [Shy Safari](https://github.com/teacherdotdev/shy-safari).
+**Le calme fait venir de belles rencontres.**
 
-16 Pokémon Donjon Mystère se promènent dans huit directions, font de petites
-pauses et regardent la classe lorsque l’enseignante prend la parole.
+Une application pensée pour accompagner les temps de travail en classe de CP.
+Le niveau sonore de la salle pilote l’arrivée de Pokémon dans une clairière
+animée, à afficher sur un écran ou un vidéoprojecteur.
 
-## Pour la classe
+[Utiliser en classe](#utiliser-en-classe) · [Démarrer le projet](#démarrer-le-projet) · [Personnaliser](#personnaliser) · [Publier](#publier-sur-github-pages)
 
-- Premier compagnon après 10 à 20 secondes de calme, puis environ toutes les
-  deux minutes par défaut. Le rythme et le seuil sont réglables.
-- Par défaut, le bruit suspend les rencontres sans retirer les Pokémon gagnés.
-- Pause avec le bouton ou la touche **Espace**, minuteur, consignes et collection.
-- Plusieurs groupes, avec leurs rencontres et leurs notes conservées séparément.
-- Démonstration sans micro et sans effet sur la progression de la classe.
-- Apparition depuis les hautes herbes, avec bruissement et bulle d’exclamation.
-- Rares siestes de 30 à 120 secondes avec les sprites de sommeil d’origine.
-  Dans la démo, « Une nouvelle rencontre » et « Voir une sieste » permettent
-  de les essayer immédiatement. Le bouton Pause réveille les Pokémon.
-- Français au premier lancement ; interfaces anglaise et espagnole disponibles.
-- Aucun compte, publicité ni outil de mesure d’audience. Le son reste sur l’appareil.
-- Site publié utilisable hors connexion après sa première préparation complète.
+![La clairière de Poké Calme avec ses 16 Pokémon](docs/images/clairiere.png)
 
-![La clairière](static/og-image.png)
+## Le principe
 
-## Démarrer dans WebStorm
+- Le temps calme permet de rencontrer de nouveaux Pokémon.
+- Dans une clairière vide, le premier arrive après **10 à 20 secondes de calme**.
+- Les suivants arrivent environ **toutes les deux minutes** par défaut. Le
+  rythme et la sensibilité du micro sont réglables.
+- Avec le réglage par défaut, le bruit suspend la progression et immobilise
+  les Pokémon, sans retirer ceux que la classe a déjà gagnés.
+- Le bouton **Pause** permet à l’enseignante de prendre la parole. Les Pokémon
+  se tournent vers la classe et les éventuels dormeurs se réveillent.
 
-Sous Windows, double-cliquer sur **DEMARRER.cmd**. Le lanceur utilise Bun,
-ou le prépare avec Node.js si nécessaire. Le premier lancement demande une
-connexion Internet. Aucun outil n’est installé globalement par le lanceur.
+## Une clairière vivante
 
-Une fois les dépendances installées, WebStorm propose la configuration
-partagée **Poké Calme** dans la liste Exécuter. Le bouton à côté du script
-`dev` dans `package.json` fonctionne aussi.
+Les **16 Pokémon** utilisent les sprites de style **Donjon Mystère** :
+Bulbizarre, Salamèche, Carapuce, Chenipan, Roucool, Pikachu, Rondoudou,
+Mystherbe, Psykokwak, Caninos, Ramoloss, Évoli, Ronflex, Minidraco, Dracolosse et Mew.
 
-Avec [Bun](https://bun.sh/docs/installation) :
+- Promenades dans huit directions, avec une taille qui suit la perspective.
+- Apparitions depuis une grande touffe d’herbe qui se balance, précédées
+  d’une bulle « ! ».
+- Petites pauses et rares siestes de **30 secondes à 2 minutes**, avec les
+  animations de sommeil d’origine.
+- Collection des rencontres, plusieurs groupes, minuteur et consignes à afficher.
+
+Les autres décors animaliers hérités de Shy Safari restent disponibles.
+
+## Utiliser en classe
+
+1. Ouvrir l’application et cliquer sur **Commencer**.
+2. Autoriser le microphone dans le navigateur.
+3. Dans **Réglages**, choisir le micro et ajuster le seuil au niveau sonore
+   de l’activité. **Étalonner** aide à prendre un repère de silence puis de conversation.
+4. Laisser la clairière affichée pendant le travail. Les rencontres se font
+   au fil du temps calme.
+5. Pour parler à la classe, utiliser **Pause** ou la touche **Espace**,
+   puis reprendre la séance.
+
+Le niveau affiché est un repère relatif, pas une mesure en décibels certifiés.
+Les réglages sont à adapter à la salle et au microphone utilisés.
+
+### Essayer sans microphone
+
+Depuis l’accueil, **Découvrir sans micro** ouvre une démonstration indépendante,
+également accessible à l’adresse `/demo/` du site.
+
+Les boutons **Une nouvelle rencontre** et **Voir une sieste** permettent
+d’essayer les animations immédiatement. Cette démonstration ne remplit pas
+la collection de la classe.
+
+## Démarrer le projet
+
+### Sous Windows
+
+Double-cliquer sur **[DEMARRER.cmd](DEMARRER.cmd)** à la racine du projet.
+Le lanceur installe les dépendances et ouvre le navigateur.
+
+Il faut disposer de **Bun**, ou de **Node.js** pour que le lanceur prépare
+Bun automatiquement. Le premier lancement demande une connexion Internet.
+Garder la fenêtre du lanceur ouverte pendant l’utilisation ; `Ctrl+C` arrête le serveur.
+
+### Dans WebStorm ou un terminal
+
+Le projet utilise **Svelte 5, SvelteKit, TypeScript, Vite et Tailwind CSS**.
+Les vérifications GitHub utilisent **Node.js 24** et **Bun 1.4.4** ; la version
+minimale de Node.js déclarée par le projet est 22.12.
 
 ```sh
 bun install --frozen-lockfile
 bun run dev
 ```
 
-Ouvrir l’adresse affichée. Garder le serveur ouvert pendant l’utilisation
-locale ; `Ctrl+C` l’arrête. Le microphone demande HTTPS ou localhost.
+Ouvrir l’adresse indiquée dans le terminal. Le micro fonctionne sur `localhost`
+pour le développement et sur un site servi en HTTPS pour une utilisation hébergée.
 
-## Publier et personnaliser
+Dans **WebStorm**, ouvrir le dossier contenant `package.json`, puis choisir
+la configuration partagée **Poké Calme** dans la liste Exécuter. On peut aussi
+lancer le script `dev` depuis `package.json`. Les modifications de code se
+reflètent dans le navigateur pendant le développement.
 
-Le **[guide GitHub](GUIDE-GITHUB.md)** explique le travail avec ton fork et
-la première publication sur GitHub Pages. Les chemins sont calculés
-automatiquement, même si le dépôt est renommé.
+## Données et utilisation hors connexion
 
-| Modification                                       | Fichier                                              |
-| -------------------------------------------------- | ---------------------------------------------------- |
-| Pokémon, noms et rareté                            | `src/lib/scenes/pokemon/catalog.ts`                  |
-| Import des seules animations utiles et des crédits | `bun run sprites:import`                             |
-| Touffe de hautes herbes                            | `src/lib/scenes/pokemon/effects/grass-tuft.svg`      |
-| Déplacements                                       | `src/lib/scenes/pokemon/walk.ts`                     |
-| Fréquence et durée des siestes                     | `src/lib/scenes/pokemon/nap.ts`                      |
-| Déroulement d’une apparition                       | `src/lib/scenes/pokemon/encounter.ts`                |
-| Décor                                              | `src/lib/scenes/pokemon/backdrop.svg` et `scene.css` |
-| Réglages par défaut                                | `src/lib/settings/settings.svelte.ts`                |
-| Textes Pokémon                                     | `src/lib/i18n/pokemon.ts`                            |
-| Publication                                        | `.github/workflows/pages.yml`                        |
+- **Aucun compte, publicité ou outil de mesure d’audience.**
+- Le son est analysé dans le navigateur pour estimer le niveau sonore ; il
+  n’est ni enregistré ni envoyé à un serveur.
+- Groupes, réglages, notes et collection sont conservés dans le navigateur,
+  sur l’appareil utilisé. Ils ne se synchronisent pas entre ordinateurs.
+- Les images et leurs métadonnées sont fournies avec le projet : aucune API
+  Pokémon n’est appelée pendant une séance.
 
-Les anciens décors de Shy Safari restent disponibles. Les PNG Pokémon et
-leurs métadonnées sont inclus dans le projet : aucune API n’est appelée en classe.
+Sur la version compilée ou publiée, attendre le message
+**Prêt pour une utilisation hors connexion** lors d’une première ouverture
+avec Internet. L’application peut ensuite être rechargée sans réseau et
+installée depuis un navigateur compatible.
 
-Les planches utilisées à l’écran ajoutent des marges transparentes entre les
-images pour éviter les lignes parasites aux tailles intermédiaires. Les
-originaux restent dans `assets/` ; `bun run sprites:pad` régénère les copies
-dans `atlases/`, sans téléchargement. L’import des sprites les prépare aussi.
+Supprimer les données du site efface les sauvegardes locales. En développement,
+le serveur lancé depuis WebStorm ou le terminal doit rester ouvert.
 
-## Vérifier une modification
+## Personnaliser
+
+| Pour modifier…                       | Fichier                                                                                                                          |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| Les Pokémon et leur rareté           | [catalog.ts](src/lib/scenes/pokemon/catalog.ts)                                                                                  |
+| Les déplacements et la perspective   | [walk.ts](src/lib/scenes/pokemon/walk.ts)                                                                                        |
+| La fréquence et la durée des siestes | [nap.ts](src/lib/scenes/pokemon/nap.ts)                                                                                          |
+| Les étapes d’une apparition          | [encounter.ts](src/lib/scenes/pokemon/encounter.ts) et [PokemonEncounter.svelte](src/lib/scenes/pokemon/PokemonEncounter.svelte) |
+| La touffe d’herbe                    | [grass-tuft.svg](src/lib/scenes/pokemon/effects/grass-tuft.svg)                                                                  |
+| Le décor et son apparence            | [backdrop.svg](src/lib/scenes/pokemon/backdrop.svg) et [scene.css](src/lib/scenes/pokemon/scene.css)                             |
+| Les réglages par défaut              | [settings.svelte.ts](src/lib/settings/settings.svelte.ts)                                                                        |
+| Les noms et textes Pokémon           | [pokemon.ts](src/lib/i18n/pokemon.ts)                                                                                            |
+
+### Préparer les sprites
+
+Après un changement du catalogue, cette commande télécharge les animations
+**Idle, Walk et Sleep**, leurs métadonnées et leurs crédits depuis la révision
+de SpriteCollab fixée dans le script :
+
+```sh
+bun run sprites:import
+```
+
+Les originaux sont conservés dans `src/lib/scenes/pokemon/assets/`. Les copies
+utilisées à l’écran sont générées dans `atlases/`, avec des marges transparentes
+entre les images pour empêcher les cases voisines de déborder lors des changements de taille.
+
+Pour régénérer uniquement ces copies, sans téléchargement :
+
+```sh
+bun run sprites:pad
+```
+
+Chaque animation conserve ses dimensions, ses durées et son nombre réel de
+directions. Les planches de sommeil des 16 Pokémon actuels utilisent leur
+unique orientation native.
+
+## Vérifier les modifications
 
 ```sh
 bun run check
 bun test
 bun run lint
 bun run build
+```
+
+Pour les tests dans le navigateur, préparer Chromium une première fois :
+
+```sh
 bunx playwright install chromium
 bun run test:browser
 ```
 
-Le test de navigateur démarre et arrête son propre aperçu. Il utilise un
-microphone simulé et ne demande pas d’accès au vrai micro. Il vérifie aussi
-le mode hors connexion. La préparation Chromium n’est nécessaire qu’une fois.
-Le workflow GitHub effectue ces vérifications avant de publier.
+La version compilée doit être construite avant `test:browser`. Ce script
+démarre son propre aperçu, utilise un micro simulé et vérifie notamment les
+rencontres, la marche, le découpage des sprites, les siestes, le clavier,
+la sauvegarde et le fonctionnement hors connexion.
 
-## Crédits et droits
+## Publier sur GitHub Pages
 
-Code Apache 2.0 : [LICENSE.txt](LICENSE.txt), [NOTICE.md](NOTICE.md).
-Sprites [PMDCollab / SpriteCollab](https://github.com/PMDCollab/SpriteCollab) :
-[crédits détaillés](static/credits/pmd/CREDITS.md), avec les droits propres
-des contributions communautaires et des sprites officiels crédités CHUNSOFT.
-La touffe actuelle est un dessin SVG original. Sources des premières herbes,
-issues de Pokémon Émeraude via pret/pokeemerald :
-[source et crédits](static/credits/emerald/CREDITS.md).
+Poké Calme se compile en **site statique**, sans backend à héberger.
+Le workflow [Vérifier et publier](.github/workflows/pages.yml) est fourni :
 
-L’absence de publicité ne donne pas automatiquement le droit de publier
-les images Pokémon. La licence du code et la politique communautaire ne
-remplacent pas les droits des titulaires de Pokémon. Projet de fan non officiel.
+- Les demandes de fusion vers `main` exécutent les vérifications.
+- Les changements envoyés sur `main` exécutent les vérifications, puis
+  publient le site lorsque GitHub Pages est configuré pour ce dépôt.
+- Les chemins des images et du mode hors connexion suivent le chemin du dépôt.
 
-Le README d’origine est conservé dans
-[docs/SHY-SAFARI-README.md](docs/SHY-SAFARI-README.md).
+Le **[guide GitHub et WebStorm](GUIDE-GITHUB.md)** détaille la préparation du
+fork, les commits, l’activation de Pages et la première publication.
+
+## Origine, crédits et licence
+
+Poké Calme est une adaptation indépendante de
+[Shy Safari](https://github.com/teacherdotdev/shy-safari), créé par teacherdotdev / teacher.dev.
+
+- **Code** : licence [Apache 2.0](LICENSE.txt). Les modifications et les
+  mentions d’origine sont décrites dans [NOTICE.md](NOTICE.md).
+- **Sprites Pokémon** : [PMDCollab / SpriteCollab](https://github.com/PMDCollab/SpriteCollab).
+  Les [crédits par Pokémon](static/credits/pmd/CREDITS.md) et la
+  [licence du dépôt de sprites](static/credits/pmd/LICENSE.md) sont conservés,
+  y compris les mentions CHUNSOFT des sprites officiels.
+- **Clairière, touffe d’herbe et éléments d’interface propres à l’adaptation** :
+  dessins SVG réalisés pour Poké Calme.
+
+Projet de fan non officiel, sans affiliation avec Nintendo, Creatures,
+GAME FREAK ou The Pokémon Company. La licence du code ne s’étend pas aux
+images, personnages et marques Pokémon ; voir les précisions dans [NOTICE.md](NOTICE.md).
+
+Le [README d’origine de Shy Safari](docs/SHY-SAFARI-README.md) est conservé dans le dépôt.
