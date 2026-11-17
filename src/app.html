@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<!-- Modifié pour Poké Calme (2026), voir NOTICE.md. -->
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -11,23 +12,13 @@
       href="%sveltekit.assets%/favicon.svg"
       type="image/svg+xml"
     />
-    <link
-      rel="icon"
-      href="%sveltekit.assets%/favicon.png"
-      type="image/png"
-      sizes="32x32"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="%sveltekit.assets%/apple-touch-icon.png"
-    />
     <script>
       // The page is prerendered without a Scene, which appears only once the
       // saved one is known. Until then, paint the saved Scene's colours so a
       // reload doesn't flash. Keep in step with settings.svelte.ts.
       try {
         var saved = JSON.parse(
-          localStorage.getItem("class-noise-level:settings") || "{}",
+          localStorage.getItem("poke-calme:settings") || "{}",
         ).scene;
         if (saved) document.documentElement.dataset.scene = saved;
       } catch (e) {}

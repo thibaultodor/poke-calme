@@ -1,3 +1,4 @@
+// Modifié pour Poké Calme (2026) : reprise et arrêt du micro, voir NOTICE.md.
 /**
  * Wiring: microphone → room monitor → session.
  *
@@ -116,13 +117,26 @@ export class App {
 
   /** True once the microphone has failed in a way the teacher must resolve. */
   get blocked() {
-    return ["denied", "missing", "unsupported"].includes(
+    return ["denied", "missing", "unsupported", "interrupted"].includes(
       this.microphone.status,
     );
   }
 
   get listening() {
     return this.microphone.status === "on";
+  }
+
+  /** A first start or a retry after the microphone failed. Keep an existing session. */
+  async begin() {
+    if (await this.connect()) {
+      this.paused = false;
+      if (!this.session.running) this.startSession();
+    }
+  }
+
+  disconnect() {
+    this.microphone.stop();
+    this.monitor.reset();
   }
 
   async connect() {

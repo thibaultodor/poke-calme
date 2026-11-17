@@ -1,3 +1,4 @@
+<!-- Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md. -->
 <script lang="ts">
   /**
    * The Scene itself: the only thing the class ever looks at.
@@ -14,6 +15,7 @@
   import type { CreatureInstance } from "$lib/session/session.svelte";
   import { welcomeFor } from "$lib/scenes/welcome";
   import Creature from "./Creature.svelte";
+  import PokemonCreature from "$lib/scenes/pokemon/PokemonCreature.svelte";
   import HollowSign from "./HollowSign.svelte";
 
   let {
@@ -26,6 +28,7 @@
     scares,
     fleeing,
     ondepart,
+    sleepingId = null,
   }: {
     scene: SceneDef;
     creatures: CreatureInstance[];
@@ -47,6 +50,8 @@
     fleeing: number[];
     /** A fleeing Creature has run out of sight, or faded away. */
     ondepart: (id: number) => void;
+    /** An optional request used by the independent demonstration. */
+    sleepingId?: number | null;
   } = $props();
 
   /** One the Scene answers to is here, or has just come. */
@@ -81,19 +86,31 @@
     and the giraffe would carry on with the fish's swimming motion.
   -->
   {#each creatures as creature (`${scene.id}:${creature.id}`)}
-    <Creature
-      {creature}
-      art={scene.creatureArt[creature.def.slug]}
-      listeningArt={scene.listeningArt[creature.def.slug]}
-      depthFade={scene.depthFade}
-      departure={creature.def.departure ?? scene.departure}
-      whilePaused={scene.whilePaused}
-      isNewest={creature.id === newestId}
-      {frozen}
-      {listening}
-      fleeing={fleeing.includes(creature.id)}
-      ongone={() => ondepart(creature.id)}
-    />
+    {#if scene.id === "pokemon"}
+      <PokemonCreature
+        {creature}
+        isNewest={creature.id === newestId}
+        sleepRequested={creature.id === sleepingId}
+        {frozen}
+        {listening}
+        fleeing={fleeing.includes(creature.id)}
+        ongone={() => ondepart(creature.id)}
+      />
+    {:else}
+      <Creature
+        {creature}
+        art={scene.creatureArt[creature.def.slug]}
+        listeningArt={scene.listeningArt[creature.def.slug]}
+        depthFade={scene.depthFade}
+        departure={creature.def.departure ?? scene.departure}
+        whilePaused={scene.whilePaused}
+        isNewest={creature.id === newestId}
+        {frozen}
+        {listening}
+        fleeing={fleeing.includes(creature.id)}
+        ongone={() => ondepart(creature.id)}
+      />
+    {/if}
   {/each}
 
   {#if scene.id === "halloween"}

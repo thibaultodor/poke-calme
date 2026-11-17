@@ -1,7 +1,9 @@
+<!-- Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md. -->
 <script lang="ts">
   import "./layout.css";
   import { current, initializeLanguage } from "$lib/i18n/index.svelte";
   import { onMount } from "svelte";
+  import { asset } from "$app/paths";
 
   let { children } = $props();
 
@@ -10,20 +12,12 @@
   $effect(() => {
     document.documentElement.lang = current().locale;
   });
-
-  // Cloudflare Web Analytics beacon. The token is set only in Vercel's
-  // production environment, so dev servers and local builds don't count visits.
-  const beacon = import.meta.env.CF_BEACON_TOKEN;
 </script>
 
 <svelte:head>
-  {#if beacon}
-    <script
-      defer
-      src="https://static.cloudflareinsights.com/beacon.min.js"
-      data-cf-beacon={JSON.stringify({ token: beacon })}
-    ></script>
-  {/if}
+  <link rel="manifest" href={asset("/manifest.webmanifest")} />
+  <link rel="apple-touch-icon" href={asset("/icons/icon-192.png")} />
+  <meta name="theme-color" content="#315d4c" />
 </svelte:head>
 
 {@render children()}

@@ -1,3 +1,4 @@
+// Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md.
 /**
  * The teacher's Classes, remembered on this computer.
  *
@@ -23,10 +24,10 @@ import {
   type ClassList,
 } from "./classList";
 
-const STORAGE_KEY = "class-noise-level:classes";
+const STORAGE_KEY = "poke-calme:classes";
 
 function prefix(classId: string) {
-  return `class-noise-level:class:${classId}:`;
+  return `poke-calme:class:${classId}:`;
 }
 
 function newId() {
@@ -40,7 +41,7 @@ function newId() {
  */
 function adoptUnprefixed(classId: string) {
   for (const part of [...SCENE_IDS, "sightings", "notes", "timer"]) {
-    const old = `class-noise-level:${part}`;
+    const old = `poke-calme:${part}`;
     const saved = localStorage.getItem(old);
     if (saved === null) continue;
     localStorage.setItem(prefix(classId) + part, saved);

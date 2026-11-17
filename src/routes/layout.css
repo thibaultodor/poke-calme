@@ -1,4 +1,6 @@
+/* Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md. */
 @import "tailwindcss";
+@import "../lib/scenes/pokemon/scene.css";
 @import "../lib/scenes/savanna/creatures.css";
 @import "../lib/scenes/space/creatures.css";
 @import "../lib/scenes/prehistoric/scene.css";

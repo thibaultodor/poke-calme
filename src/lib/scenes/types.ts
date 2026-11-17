@@ -1,3 +1,4 @@
+// Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md.
 /**
  * What every Scene's Roster is made of. Shared so the Session, the roll and
  * the animation layer never care which Scene is on screen.
@@ -7,6 +8,7 @@ import type { DepartureStyle, MotionStyle } from "./motion";
 
 /** Which Scene is on screen. See `scenes/index.ts`. */
 export type SceneId =
+  | "pokemon"
   | "reef"
   | "savanna"
   | "space"
@@ -17,6 +19,7 @@ export type SceneId =
   | "halloween";
 
 export const SCENE_IDS: SceneId[] = [
+  "pokemon",
   "savanna",
   "reef",
   "space",
@@ -29,7 +32,7 @@ export const SCENE_IDS: SceneId[] = [
 ];
 
 /** What a first visit, and the prerendered page, shows. */
-export const DEFAULT_SCENE: SceneId = "savanna";
+export const DEFAULT_SCENE: SceneId = "pokemon";
 
 export type RarityTier = "common" | "uncommon" | "rare";
 

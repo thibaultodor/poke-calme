@@ -1,3 +1,4 @@
+// Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md.
 /**
  * Every word the teacher or the class reads, in each language on offer.
  *
@@ -6,6 +7,8 @@
  * The choice is remembered on this computer, like the rest of the settings.
  */
 
+import { POKEMON_WORDING } from "./pokemon";
+import { POKEMON } from "$lib/scenes/pokemon/catalog";
 import { browser } from "$app/environment";
 import type { SceneId } from "$lib/scenes/types";
 
@@ -15,18 +18,33 @@ const en = {
   name: "English",
   locale: "en",
   ui: {
+    "start.connecting": "Connecting the microphone…",
+    "start.loading": "Getting ready…",
+    "start.resume": "Continue with my class",
+    "welcome.tagline": "A little quiet. New friends.",
+    "welcome.companions": "Friends from Mystery Dungeon",
+    "offline.ready": "Ready to use offline",
+    "offline.update": "Update the app",
+    "demo.open": "Open the demonstration ↗",
+    "demo.hint": "Opens a new tab, without changing this class’s encounters.",
+    "demo.withoutMic": "Explore without a microphone",
+    "blocked.back": "Back to the start",
+    "blocked.interrupted":
+      "The microphone is busy, muted or sleeping. Check the input and try again. The class keeps its encounters.",
+    "mic.disconnect": "Turn off the microphone and return to the start",
+    "keyboard.pause": "Space: pause or resume (outside text fields).",
     "language.change": "Change language",
-    "app.pageTitle": "Shy Safari — free classroom noise level monitor",
+    "app.pageTitle": "Poké Calme — free classroom noise level monitor",
     "app.description":
       "A free classroom noise monitor for the projector. Shy savanna and coral reef animals come out the longer the room stays quiet. No sign-up, nothing recorded.",
-    "brand.title": "Built by teacher.dev",
-    "common.builtBy": "Built by teacher.dev",
+    "brand.title": "Adapted from Shy Safari",
+    "common.builtBy": "Adapted from Shy Safari",
     "common.about": "about",
     "common.privacy": "privacy",
     "common.howItWorks": "how it works",
     "preview.alt":
-      "A calm savanna with an elephant, zebras, a lion, a giraffe and a meerkat, beside the words Shy Safari, a free classroom noise monitor",
-    "common.back": "← Back to Shy Safari",
+      "A calm savanna with an elephant, zebras, a lion, a giraffe and a meerkat, beside the words Poké Calme, a free classroom noise monitor",
+    "common.back": "← Back to Poké Calme",
     "common.close": "Close",
     "common.cancel": "Cancel",
     "common.done": "Done",
@@ -36,10 +54,10 @@ const en = {
     "float.openHint":
       "Float the scene in a small window over your slides or other tabs",
     "float.failed": "The floating window could not be opened.",
-    "floating.title": "Shy Safari is floating",
+    "floating.title": "Poké Calme is floating",
     "floating.instructions":
       "The scene is in its own window over your other tabs, and keeps listening to the room. Keep this tab open: the window's back-to-tab button brings it back here.",
-    "floating.return": "Bring Shy Safari back here",
+    "floating.return": "Bring Poké Calme back here",
     "start.shy": "Shh… these animals are shy!",
     "start.explain":
       "If it gets too loud, they stay hidden. When the room is calm again, they'll start coming out.",
@@ -50,6 +68,8 @@ const en = {
     "scene.change": "Change scene",
     "scene.new": "New",
     "scene.newScenes": "New scenes",
+    "scene.pokemon.name": "Clairière Pokémon",
+    "scene.pokemon.hint": "Donjon Mystère · 16 Pokémon",
     "scene.savanna.name": "Savanna",
     "scene.savanna.hint": "Zebras, giraffes and lions",
     "scene.reef.name": "Coral reef",
@@ -243,15 +263,15 @@ const en = {
     "blocked.unsupported":
       "This browser cannot use a microphone. Chrome, Edge and Safari all work.",
     "blocked.tryAgain": "Try again",
-    "about.pageTitle": "About — Shy Safari",
+    "about.pageTitle": "About — Poké Calme",
     "about.meta":
-      "Shy Safari is a free classroom noise tool made at the EdTech-a-thon and run by teacher.dev. No ads, no accounts.",
+      "Poké Calme is a free classroom noise tool made at the EdTech-a-thon and run by teacher.dev. No ads, no accounts.",
     "about.title": "About",
     "about.lede":
       "Put it on the projector. The quieter the room, the more animals come out.",
     "about.originTitle": "Where it came from",
     "about.origin.beforeEvent":
-      "Shy Safari started as a three-day project at the ",
+      "Poké Calme started as a three-day project at the ",
     "about.origin.afterEvent":
       ", an event where people get together to build free tools for classrooms. It's now run by ",
     "about.origin.afterTeacher": ", where you can find our other tools.",
@@ -264,31 +284,31 @@ const en = {
       "It's free. There's no paid version and no ads, and we don't collect personal information about you or your students.",
     "about.feedbackTitle": "Get in touch",
     "about.feedback":
-      "If something isn't working, or you have an idea for Shy Safari or for another tool you'd use in class, send us an email.",
+      "If something isn't working, or you have an idea for Poké Calme or for another tool you'd use in class, send us an email.",
     "about.email": "Email support@teacher.dev",
-    "privacy.pageTitle": "Privacy — Shy Safari",
-    "privacy.meta": "What Shy Safari collects, what it doesn't, and why.",
+    "privacy.pageTitle": "Privacy — Poké Calme",
+    "privacy.meta": "What Poké Calme collects, what it doesn't, and why.",
     "privacy.title": "Privacy",
     "privacy.lede": "What we collect, what we don't, and why.",
     "privacy.microphone":
-      "Shy Safari listens through your microphone only to measure how loud the room is. The sound is turned into a single volume level on this computer, moment by moment; it is never recorded, never saved, and never sent anywhere.",
+      "Poké Calme listens through your microphone only to measure how loud the room is. The sound is turned into a single volume level on this computer, moment by moment; it is never recorded, never saved, and never sent anywhere.",
     "privacy.local":
       "There are no accounts, and we do not collect personal information from teachers or students. Your settings, your calibration and the animals each of your classes has spotted are kept in this browser's local storage on this computer only, and clearing your browser data removes them.",
     "privacy.analytics.beforeLink":
-      "We use Cloudflare Web Analytics to anonymously count visits, which helps us understand how Shy Safari is being used in classrooms. Cloudflare Web Analytics is cookieless, does not fingerprint visitors, and does not track users across other sites; see Cloudflare's ",
+      "We use Cloudflare Web Analytics to anonymously count visits, which helps us understand how Poké Calme is being used in classrooms. Cloudflare Web Analytics is cookieless, does not fingerprint visitors, and does not track users across other sites; see Cloudflare's ",
     "privacy.analytics.link": "privacy policy",
     "privacy.analytics.afterLink":
       " for details. We do not share, sell, or otherwise transfer any visitor data to third parties.",
     "privacy.contact": "Questions or concerns? Email ",
-    "guide.title": "How Shy Safari works",
+    "guide.title": "How Poké Calme works",
     "guide.lede":
       "A free classroom noise level monitor that rewards quiet instead of punishing noise.",
     "guide.whatTitle": "What it is",
     "guide.what":
-      "Shy Safari is a classroom noise monitor that runs in a web browser. Put it on the projector or interactive whiteboard and it shows a calm savanna, coral reef, night sky in deep space, Cretaceous floodplain, woodland clearing, rainforest jungle or Arctic sea ice. It listens to how loud the room is through the computer's microphone, and while the class stays under the volume goal, shy animals come out one at a time. It is the opposite of a bouncing noise meter: there is no score, no needle and no red warning light, so nothing makes being loud more interesting than being quiet.",
+      "Poké Calme is a classroom noise monitor that runs in a web browser. Put it on the projector or interactive whiteboard and it shows a calm savanna, coral reef, night sky in deep space, Cretaceous floodplain, woodland clearing, rainforest jungle or Arctic sea ice. It listens to how loud the room is through the computer's microphone, and while the class stays under the volume goal, shy animals come out one at a time. It is the opposite of a bouncing noise meter: there is no score, no needle and no red warning light, so nothing makes being loud more interesting than being quiet.",
     "guide.useTitle": "Using it in class",
     "guide.use.open":
-      "Open shysafari.com on the computer connected to your projector, pick the savanna, the coral reef, deep space, the prehistoric scene, the forest, the jungle or the Arctic, and press Start. The browser asks to use the microphone.",
+      "Open this app on the computer connected to your projector, choose a scene, and press Start. The browser asks to use the microphone.",
     "guide.use.goal":
       "Set the volume goal for the activity: Silent, Independent (quiet whispers) or Partner work (conversation voices), or drag the line on the meter to anywhere in between.",
     "guide.use.rate":
@@ -312,7 +332,7 @@ const en = {
     "guide.for":
       "Teachers of any grade who want a calm, visual cue for voice levels during independent work, reading time, tests, centers or group work. The whole class shares one screen, and students need nothing at all.",
     "guide.faqTitle": "Questions teachers ask",
-    "guide.faq.free.q": "Is Shy Safari free?",
+    "guide.faq.free.q": "Is Poké Calme free?",
     "guide.faq.free.a":
       "Yes. There are no paywalls, no ads and no premium version. It came out of the EdTech-a-thon, a community of builders making free tools for classrooms, and is maintained by teacher.dev.",
     "guide.faq.record.q": "Does it record the classroom?",
@@ -329,7 +349,7 @@ const en = {
       "English, Spanish and French. It follows the browser's language, and you can change it from the menu at the top of the screen.",
     "guide.faq.meter.q": "How is it different from a noise meter?",
     "guide.faq.meter.a":
-      "A noise meter shows the class how loud they are, which can turn getting louder into a game. Shy Safari shows only a peaceful scene that slowly fills with animals, so the reward for quiet work is what the class sees, and there is no score to beat.",
+      "A noise meter shows the class how loud they are, which can turn getting louder into a game. Poké Calme shows only a peaceful scene that slowly fills with animals, so the reward for quiet work is what the class sees, and there is no score to beat.",
   },
   creatures: {
     meerkat: "Meerkat",
@@ -640,18 +660,34 @@ const es = {
   name: "Español",
   locale: "es",
   ui: {
+    "start.connecting": "Conectando el micrófono…",
+    "start.loading": "Preparando…",
+    "start.resume": "Continuar con mi clase",
+    "welcome.tagline": "Un poco de calma. Nuevos amigos.",
+    "welcome.companions": "Compañeros de Mundo Misterioso",
+    "offline.ready": "Lista para usar sin conexión",
+    "offline.update": "Actualizar la aplicación",
+    "demo.open": "Abrir la demostración ↗",
+    "demo.hint": "Abre otra pestaña sin cambiar los encuentros de esta clase.",
+    "demo.withoutMic": "Explorar sin micrófono",
+    "blocked.back": "Volver al inicio",
+    "blocked.interrupted":
+      "El micrófono está ocupado, silenciado o en reposo. Comprueba la entrada e inténtalo de nuevo. Los encuentros se conservan.",
+    "mic.disconnect": "Apagar el micrófono y volver al inicio",
+    "keyboard.pause":
+      "Espacio: pausa o continuar (fuera de los campos de texto).",
     "language.change": "Cambiar idioma",
-    "app.pageTitle": "Shy Safari — medidor de ruido gratuito para el aula",
+    "app.pageTitle": "Poké Calme — medidor de ruido gratuito para el aula",
     "app.description":
       "Un medidor de ruido gratuito para el proyector del aula. Animales tímidos de la sabana y del arrecife aparecen mientras la clase está en silencio. Sin registro, sin grabaciones.",
-    "brand.title": "Creado por teacher.dev",
-    "common.builtBy": "Creado por teacher.dev",
+    "brand.title": "Basado en Shy Safari",
+    "common.builtBy": "Basado en Shy Safari",
     "common.about": "acerca de",
     "common.privacy": "privacidad",
     "common.howItWorks": "cómo funciona",
     "preview.alt":
-      "Una sabana tranquila con un elefante, cebras, un león, una jirafa y un suricata, junto a las palabras Shy Safari, un medidor de ruido gratuito para el aula",
-    "common.back": "← Volver a Shy Safari",
+      "Una sabana tranquila con un elefante, cebras, un león, una jirafa y un suricata, junto a las palabras Poké Calme, un medidor de ruido gratuito para el aula",
+    "common.back": "← Volver a Poké Calme",
     "common.close": "Cerrar",
     "common.cancel": "Cancelar",
     "common.done": "Listo",
@@ -661,10 +697,10 @@ const es = {
     "float.openHint":
       "Mostrar la escena en una ventana pequeña sobre tus diapositivas u otras pestañas",
     "float.failed": "No se pudo abrir la ventana flotante.",
-    "floating.title": "Shy Safari está flotando",
+    "floating.title": "Poké Calme está flotando",
     "floating.instructions":
       "La escena está en su propia ventana sobre tus otras pestañas y sigue escuchando el aula. Deja esta pestaña abierta: el botón de la ventana para volver a la pestaña la trae de vuelta aquí.",
-    "floating.return": "Traer Shy Safari de vuelta aquí",
+    "floating.return": "Traer Poké Calme de vuelta aquí",
     "start.shy": "Shh… ¡estos animales son tímidos!",
     "start.explain":
       "Si hay demasiado ruido, se quedan escondidos. Cuando el aula vuelva a estar tranquila, empezarán a salir.",
@@ -675,6 +711,8 @@ const es = {
     "scene.change": "Cambiar escena",
     "scene.new": "Nuevo",
     "scene.newScenes": "Escenas nuevas",
+    "scene.pokemon.name": "Clairière Pokémon",
+    "scene.pokemon.hint": "Donjon Mystère · 16 Pokémon",
     "scene.savanna.name": "Sabana",
     "scene.savanna.hint": "Cebras, jirafas y leones",
     "scene.reef.name": "Arrecife de coral",
@@ -871,15 +909,15 @@ const es = {
     "blocked.unsupported":
       "Este navegador no puede usar un micrófono. Chrome, Edge y Safari funcionan.",
     "blocked.tryAgain": "Volver a intentarlo",
-    "about.pageTitle": "Acerca de — Shy Safari",
+    "about.pageTitle": "Acerca de — Poké Calme",
     "about.meta":
-      "Shy Safari es una herramienta gratuita para el ruido en el aula, creada en el EdTech-a-thon y gestionada por teacher.dev. Sin anuncios ni cuentas.",
+      "Poké Calme es una herramienta gratuita para el ruido en el aula, creada en el EdTech-a-thon y gestionada por teacher.dev. Sin anuncios ni cuentas.",
     "about.title": "Acerca de",
     "about.lede":
       "Ponlo en el proyector. Cuanto más silencio haya, más animales salen.",
     "about.originTitle": "De dónde viene",
     "about.origin.beforeEvent":
-      "Shy Safari empezó como un proyecto de tres días en el ",
+      "Poké Calme empezó como un proyecto de tres días en el ",
     "about.origin.afterEvent":
       ", un evento donde la gente se reúne para crear herramientas gratuitas para las aulas. Ahora lo gestiona ",
     "about.origin.afterTeacher":
@@ -893,31 +931,31 @@ const es = {
       "Es gratis. No hay versión de pago ni anuncios, y no recopilamos datos personales tuyos ni de tus alumnos.",
     "about.feedbackTitle": "Escríbenos",
     "about.feedback":
-      "Si algo no funciona, o tienes una idea para Shy Safari o para otra herramienta que usarías en clase, mándanos un correo.",
+      "Si algo no funciona, o tienes una idea para Poké Calme o para otra herramienta que usarías en clase, mándanos un correo.",
     "about.email": "Escribir a support@teacher.dev",
-    "privacy.pageTitle": "Privacidad — Shy Safari",
-    "privacy.meta": "Qué recopila Shy Safari, qué no y por qué.",
+    "privacy.pageTitle": "Privacidad — Poké Calme",
+    "privacy.meta": "Qué recopila Poké Calme, qué no y por qué.",
     "privacy.title": "Privacidad",
     "privacy.lede": "Qué recopilamos, qué no y por qué.",
     "privacy.microphone":
-      "Shy Safari escucha por el micrófono solo para medir cuánto ruido hay en el aula. El sonido se convierte en un único nivel de volumen en esta computadora, momento a momento; nunca se graba, nunca se guarda y nunca se envía a ningún sitio.",
+      "Poké Calme escucha por el micrófono solo para medir cuánto ruido hay en el aula. El sonido se convierte en un único nivel de volumen en esta computadora, momento a momento; nunca se graba, nunca se guarda y nunca se envía a ningún sitio.",
     "privacy.local":
       "No hay cuentas y no recopilamos información personal de docentes ni estudiantes. Tus ajustes, tu calibración y los animales que ha visto cada una de tus clases se guardan en el almacenamiento local de este navegador, solo en esta computadora; al borrar los datos del navegador se eliminan.",
     "privacy.analytics.beforeLink":
-      "Usamos Cloudflare Web Analytics para contar las visitas de forma anónima, lo que nos ayuda a entender cómo se usa Shy Safari en las aulas. Cloudflare Web Analytics no usa cookies, no crea huellas digitales de los visitantes y no los rastrea en otros sitios; consulta la ",
+      "Usamos Cloudflare Web Analytics para contar las visitas de forma anónima, lo que nos ayuda a entender cómo se usa Poké Calme en las aulas. Cloudflare Web Analytics no usa cookies, no crea huellas digitales de los visitantes y no los rastrea en otros sitios; consulta la ",
     "privacy.analytics.link": "política de privacidad",
     "privacy.analytics.afterLink":
       " de Cloudflare para más detalles. No compartimos, vendemos ni transferimos de ningún otro modo los datos de los visitantes a terceros.",
     "privacy.contact": "¿Tienes preguntas o dudas? Escribe a ",
-    "guide.title": "Cómo funciona Shy Safari",
+    "guide.title": "Cómo funciona Poké Calme",
     "guide.lede":
       "Un medidor de ruido gratuito para el aula que premia el silencio en lugar de castigar el ruido.",
     "guide.whatTitle": "Qué es",
     "guide.what":
-      "Shy Safari es un medidor de ruido para el aula que funciona en el navegador. Ponlo en el proyector o en la pizarra digital y muestra una sabana, un arrecife de coral, un cielo del espacio profundo, una llanura del Cretácico, un claro del bosque, una selva tropical o el hielo ártico tranquilos. Escucha lo fuerte que suena la clase a través del micrófono del ordenador y, mientras la clase se mantiene por debajo del límite de volumen, van apareciendo animales tímidos uno a uno. Es lo contrario de un medidor de ruido que salta: no hay puntuación, ni aguja, ni luz roja de aviso, así que hacer ruido nunca resulta más interesante que estar en silencio.",
+      "Poké Calme es un medidor de ruido para el aula que funciona en el navegador. Ponlo en el proyector o en la pizarra digital y muestra una sabana, un arrecife de coral, un cielo del espacio profundo, una llanura del Cretácico, un claro del bosque, una selva tropical o el hielo ártico tranquilos. Escucha lo fuerte que suena la clase a través del micrófono del ordenador y, mientras la clase se mantiene por debajo del límite de volumen, van apareciendo animales tímidos uno a uno. Es lo contrario de un medidor de ruido que salta: no hay puntuación, ni aguja, ni luz roja de aviso, así que hacer ruido nunca resulta más interesante que estar en silencio.",
     "guide.useTitle": "Cómo usarlo en clase",
     "guide.use.open":
-      "Abre shysafari.com en el ordenador conectado al proyector, elige la sabana, el arrecife de coral, el espacio profundo, la prehistoria, el bosque, la selva o el Ártico y pulsa Empezar. El navegador pedirá permiso para usar el micrófono.",
+      "Abre esta aplicación en el ordenador conectado al proyector, elige una escena y pulsa Empezar. El navegador pedirá permiso para usar el micrófono.",
     "guide.use.goal":
       "Elige el límite de volumen para la actividad: Silencio, Individual (solo susurros) o En parejas (voz de conversación), o arrastra la línea del medidor a cualquier punto intermedio.",
     "guide.use.rate":
@@ -941,7 +979,7 @@ const es = {
     "guide.for":
       "Para docentes de cualquier etapa que quieren una señal visual y tranquila del nivel de voz durante el trabajo individual, la lectura, los exámenes, los rincones o el trabajo en grupo. Toda la clase comparte una pantalla y el alumnado no necesita nada.",
     "guide.faqTitle": "Preguntas frecuentes",
-    "guide.faq.free.q": "¿Shy Safari es gratis?",
+    "guide.faq.free.q": "¿Poké Calme es gratis?",
     "guide.faq.free.a":
       "Sí. No hay muros de pago, ni anuncios, ni versión premium. Nació en el EdTech-a-thon, una comunidad que crea herramientas gratuitas para las aulas, y lo mantiene teacher.dev.",
     "guide.faq.record.q": "¿Graba lo que pasa en el aula?",
@@ -958,7 +996,7 @@ const es = {
       "En inglés, español y francés. Sigue el idioma del navegador, y puedes cambiarlo desde el menú de la parte superior de la pantalla.",
     "guide.faq.meter.q": "¿En qué se diferencia de un medidor de ruido?",
     "guide.faq.meter.a":
-      "Un medidor de ruido le muestra a la clase lo fuerte que está hablando, y eso puede convertir el hacer ruido en un juego. Shy Safari solo muestra una escena tranquila que se va llenando de animales, así que lo que la clase ve es la recompensa por trabajar en silencio, y no hay ninguna puntuación que batir.",
+      "Un medidor de ruido le muestra a la clase lo fuerte que está hablando, y eso puede convertir el hacer ruido en un juego. Poké Calme solo muestra una escena tranquila que se va llenando de animales, así que lo que la clase ve es la recompensa por trabajar en silencio, y no hay ninguna puntuación que batir.",
   },
   scenes: {
     space: {
@@ -1237,18 +1275,35 @@ const fr = {
   name: "Français",
   locale: "fr",
   ui: {
+    "start.connecting": "Connexion au micro…",
+    "start.loading": "Un petit instant…",
+    "start.resume": "Reprendre avec ma classe",
+    "welcome.tagline": "Un peu de calme. De nouvelles rencontres.",
+    "welcome.companions": "Des compagnons de Donjon Mystère",
+    "offline.ready": "Prêt pour une utilisation hors connexion",
+    "offline.update": "Mettre à jour l’application",
+    "demo.open": "Ouvrir la démonstration ↗",
+    "demo.hint":
+      "S’ouvre dans un nouvel onglet, sans changer les rencontres de votre classe.",
+    "demo.withoutMic": "Découvrir sans micro",
+    "blocked.back": "Revenir à l’accueil",
+    "blocked.interrupted":
+      "Le micro est occupé, coupé ou en veille. Vérifiez l’entrée audio puis réessayez. Les rencontres de la classe sont conservées.",
+    "mic.disconnect": "Couper le micro et revenir à l’accueil",
+    "keyboard.pause":
+      "Espace : mettre en pause ou reprendre (en dehors d’un champ de texte).",
     "language.change": "Changer de langue",
-    "app.pageTitle": "Shy Safari — sonomètre gratuit pour la classe",
+    "app.pageTitle": "Poké Calme — une clairière pour travailler au calme",
     "app.description":
-      "Un sonomètre gratuit pour le vidéoprojecteur de la classe. Des animaux timides de la savane et du récif sortent tant que la classe reste calme. Sans inscription, sans enregistrement.",
-    "brand.title": "Créé par teacher.dev",
-    "common.builtBy": "Créé par teacher.dev",
+      "Une clairière Pokémon pour accompagner le travail calme en CP. Animations Donjon Mystère, micro traité localement et aucun compte.",
+    "brand.title": "À propos de Poké Calme",
+    "common.builtBy": "Adapté de Shy Safari",
     "common.about": "à propos",
     "common.privacy": "confidentialité",
     "common.howItWorks": "comment ça marche",
     "preview.alt":
-      "Une savane paisible avec un éléphant, des zèbres, un lion, une girafe et un suricate, à côté des mots Shy Safari, un sonomètre gratuit pour la classe",
-    "common.back": "← Retour à Shy Safari",
+      "Une clairière paisible accueillant des Pokémon Donjon Mystère.",
+    "common.back": "← Retour à Poké Calme",
     "common.close": "Fermer",
     "common.cancel": "Annuler",
     "common.done": "Terminé",
@@ -1258,10 +1313,10 @@ const fr = {
     "float.openHint":
       "Afficher la scène dans une petite fenêtre au-dessus de vos diapositives ou d’autres onglets",
     "float.failed": "Impossible d’ouvrir la fenêtre flottante.",
-    "floating.title": "Shy Safari est dans une fenêtre flottante",
+    "floating.title": "Poké Calme est dans une fenêtre flottante",
     "floating.instructions":
       "La scène est dans sa propre fenêtre au-dessus de vos autres onglets et continue d’écouter la classe. Gardez cet onglet ouvert : le bouton de retour à l’onglet de la fenêtre la ramène ici.",
-    "floating.return": "Ramener Shy Safari ici",
+    "floating.return": "Ramener Poké Calme ici",
     "start.shy": "Chut… ces animaux sont timides !",
     "start.explain":
       "S’il y a trop de bruit, ils restent cachés. Quand la classe redevient calme, ils commencent à sortir.",
@@ -1272,6 +1327,8 @@ const fr = {
     "scene.change": "Changer de décor",
     "scene.new": "Nouveau",
     "scene.newScenes": "Nouveaux décors",
+    "scene.pokemon.name": "Clairière Pokémon",
+    "scene.pokemon.hint": "Donjon Mystère · 16 Pokémon",
     "scene.savanna.name": "Savane",
     "scene.savanna.hint": "Zèbres, girafes et lions",
     "scene.reef.name": "Récif de corail",
@@ -1300,10 +1357,11 @@ const fr = {
     "collection.comingSoon": "Bientôt",
     "collection.newToday": "Nouveau aujourd’hui",
     "collection.toCome": "encore {count} à venir",
-    "controls.reset": "Réinitialiser",
-    "controls.confirmReset": "Confirmer la réinitialisation",
-    "controls.resetQuestion": "Vider ce décor et tout recommencer ?",
-    "controls.resetYes": "Oui, réinitialiser",
+    "controls.reset": "Nouvelle séance",
+    "controls.confirmReset": "Commencer une nouvelle séance",
+    "controls.resetQuestion":
+      "Vider ce décor et recommencer ? La collection sera conservée.",
+    "controls.resetYes": "Oui, recommencer",
     "controls.keepGoing": "Continuer",
     "controls.settings": "Réglages",
     "controls.animals": "Animaux",
@@ -1345,14 +1403,14 @@ const fr = {
     "notes.delete": "Supprimer",
     "controls.pause": "Pause",
     "controls.pauseHint":
-      "Arrêter d’écouter un moment, pour pouvoir parler à la classe",
+      "Mettre le sonomètre en pause pour parler à la classe (Espace)",
     "controls.resume": "Reprendre",
-    "paused.status": "Sonomètre en pause",
+    "paused.status": "Pause, on écoute",
     "classes.change": "Changer de classe",
     "classes.unnamed": "Ma classe",
     "classes.edit": "Modifier les classes",
     "classes.hint":
-      "Chaque classe garde ses propres animaux et sa propre collection.",
+      "Chaque groupe garde ses rencontres, sa collection et ses consignes.",
     "classes.storage":
       "Vos classes sont enregistrées dans ce navigateur, sur cet ordinateur uniquement. Elles n’apparaîtront pas sur un autre ordinateur ou navigateur, et effacer les données du navigateur les supprime.",
     "classes.current": "À l’écran",
@@ -1362,7 +1420,7 @@ const fr = {
     "classes.delete": "Supprimer",
     "classes.deleteLabel": "Supprimer {name}",
     "classes.addLabel": "Nom de la nouvelle classe",
-    "classes.addPlaceholder": "p. ex. 2e heure",
+    "classes.addPlaceholder": "p. ex. CP, groupe du matin…",
     "classes.add": "Ajouter une classe",
     "classes.deleteTitle": "Vous confirmez ?",
     "classes.deleteBody":
@@ -1372,7 +1430,7 @@ const fr = {
     "classes.deleteYes": "Oui, supprimer",
     "settings.title": "Réglages",
     "settings.microphone": "Micro",
-    "settings.meter": "Sonomètre",
+    "settings.meter": "Volume de la classe",
     "settings.showMeter": "Afficher à l’écran",
     "settings.showMeterHint":
       "Garder le sonomètre au-dessus de la scène pendant que la classe travaille",
@@ -1398,15 +1456,15 @@ const fr = {
     "preview.unlocks": "Débloqué le {date}",
     "settings.savedNote":
       "Les réglages sont enregistrés sur cet ordinateur uniquement. Le son du micro ne quitte jamais l’appareil.",
-    "goal.silent.label": "Silence",
-    "goal.silent.hint": "Personne ne parle",
+    "goal.silent.label": "Lecture calme",
+    "goal.silent.hint": "Presque aucun bruit",
     "goal.independent.label": "Travail seul",
-    "goal.independent.hint": "Chuchotements seulement",
+    "goal.independent.hint": "Quelques chuchotements",
     "goal.partner.label": "En binôme",
-    "goal.partner.hint": "Voix de conversation",
-    "rate.relaxed": "Tranquille",
-    "rate.normal": "Normal",
-    "rate.lively": "Animé",
+    "goal.partner.hint": "De petites voix",
+    "rate.relaxed": "Long temps calme",
+    "rate.normal": "Posé",
+    "rate.lively": "Découverte",
     "rate.hint": "environ un animal toutes les {minutes} minutes",
     "mic.default": "Micro par défaut",
     "mic.numbered": "Micro {number}",
@@ -1469,15 +1527,15 @@ const fr = {
     "blocked.unsupported":
       "Ce navigateur ne peut pas utiliser de micro. Chrome, Edge et Safari fonctionnent tous.",
     "blocked.tryAgain": "Réessayer",
-    "about.pageTitle": "À propos — Shy Safari",
+    "about.pageTitle": "À propos — Poké Calme",
     "about.meta":
-      "Shy Safari est un outil gratuit pour le bruit en classe, créé à l’EdTech-a-thon et géré par teacher.dev. Sans publicité ni compte.",
+      "Poké Calme est un outil gratuit pour le bruit en classe, créé à l’EdTech-a-thon et géré par teacher.dev. Sans publicité ni compte.",
     "about.title": "À propos",
     "about.lede":
       "Affichez-le au tableau. Plus la classe est calme, plus il y a d’animaux.",
     "about.originTitle": "D’où ça vient",
     "about.origin.beforeEvent":
-      "Shy Safari a commencé comme un projet de trois jours à l’",
+      "Poké Calme a commencé comme un projet de trois jours à l’",
     "about.origin.afterEvent":
       ", un événement où l’on se réunit pour créer des outils gratuits pour les classes. Il est maintenant géré par ",
     "about.origin.afterTeacher": ", où vous trouverez aussi nos autres outils.",
@@ -1490,37 +1548,37 @@ const fr = {
       "C’est gratuit. Il n’y a ni version payante ni publicité, et nous ne collectons aucune donnée personnelle sur vous ou vos élèves.",
     "about.feedbackTitle": "Nous écrire",
     "about.feedback":
-      "Si quelque chose ne marche pas, ou si vous avez une idée pour Shy Safari ou pour un autre outil que vous utiliseriez en classe, envoyez-nous un e-mail.",
+      "Si quelque chose ne marche pas, ou si vous avez une idée pour Poké Calme ou pour un autre outil que vous utiliseriez en classe, envoyez-nous un e-mail.",
     "about.email": "Écrire à support@teacher.dev",
-    "privacy.pageTitle": "Confidentialité — Shy Safari",
+    "privacy.pageTitle": "Confidentialité — Poké Calme",
     "privacy.meta":
-      "Ce que Shy Safari collecte, ce qu’il ne collecte pas, et pourquoi.",
+      "Ce que Poké Calme collecte, ce qu’il ne collecte pas, et pourquoi.",
     "privacy.title": "Confidentialité",
     "privacy.lede":
       "Ce que nous collectons, ce que nous ne collectons pas, et pourquoi.",
     "privacy.microphone":
-      "Shy Safari écoute par le micro uniquement pour mesurer le niveau sonore de la classe. Le son est transformé en un simple niveau de volume sur cet ordinateur, instant après instant ; il n’est jamais enregistré, jamais conservé et jamais envoyé nulle part.",
+      "Poké Calme écoute par le micro uniquement pour mesurer le niveau sonore de la classe. Le son est transformé en un simple niveau de volume sur cet ordinateur, instant après instant ; il n’est jamais enregistré, jamais conservé et jamais envoyé nulle part.",
     "privacy.local":
       "Il n’y a pas de compte, et nous ne collectons aucune information personnelle sur les enseignants ou les élèves. Vos réglages, votre étalonnage et les animaux aperçus par chacune de vos classes sont conservés dans le stockage local de ce navigateur, sur cet ordinateur uniquement ; effacer les données du navigateur les supprime.",
     "privacy.analytics.beforeLink":
-      "Nous utilisons Cloudflare Web Analytics pour compter les visites de façon anonyme, ce qui nous aide à comprendre comment Shy Safari est utilisé en classe. Cloudflare Web Analytics n’utilise pas de cookies, ne crée pas d’empreinte des visiteurs et ne les suit pas sur d’autres sites ; consultez la ",
+      "Nous utilisons Cloudflare Web Analytics pour compter les visites de façon anonyme, ce qui nous aide à comprendre comment Poké Calme est utilisé en classe. Cloudflare Web Analytics n’utilise pas de cookies, ne crée pas d’empreinte des visiteurs et ne les suit pas sur d’autres sites ; consultez la ",
     "privacy.analytics.link": "politique de confidentialité",
     "privacy.analytics.afterLink":
       " de Cloudflare pour en savoir plus. Nous ne partageons, ne vendons ni ne transférons d’aucune autre manière les données des visiteurs à des tiers.",
     "privacy.contact": "Des questions ou des inquiétudes ? Écrivez à ",
-    "guide.title": "Comment fonctionne Shy Safari",
+    "guide.title": "Comment fonctionne Poké Calme",
     "guide.lede":
       "Un sonomètre gratuit pour la classe qui récompense le calme au lieu de punir le bruit.",
     "guide.whatTitle": "Ce que c'est",
     "guide.what":
-      "Shy Safari est un sonomètre pour la classe qui fonctionne dans le navigateur. Affichez-le au vidéoprojecteur ou sur le tableau interactif : il montre une savane, un récif de corail, un ciel de l'espace profond, une plaine du Crétacé, une clairière en forêt, une jungle tropicale ou une banquise arctique paisibles. Il écoute le niveau sonore de la salle grâce au micro de l'ordinateur et, tant que la classe reste sous l'objectif de volume, des animaux timides sortent un par un. C'est le contraire d'un sonomètre qui s'agite : pas de score, pas d'aiguille, pas de voyant rouge, donc rien ne rend le bruit plus intéressant que le calme.",
+      "Poké Calme affiche une clairière qui se remplit de Pokémon au fil du travail calme. Le microphone mesure le volume sur cet ordinateur. Les Pokémon marchent dans huit directions, se reposent, et se tournent vers la classe lorsque l’enseignante appuie sur Pause. Les décors de Shy Safari sont aussi disponibles.",
     "guide.useTitle": "L'utiliser en classe",
     "guide.use.open":
-      "Ouvrez shysafari.com sur l'ordinateur relié au vidéoprojecteur, choisissez la savane, le récif de corail, l'espace profond, la préhistoire, la forêt, la jungle ou l'Arctique, puis appuyez sur Commencer. Le navigateur demande l'accès au micro.",
+      "Ouvrez cette application sur l’ordinateur relié au vidéoprojecteur, puis appuyez sur Commencer et autorisez le micro. Choisissez la clairière Pokémon ou un autre décor.",
     "guide.use.goal":
       "Réglez l'objectif de volume pour l'activité : Silence, Travail seul (chuchotements) ou En binôme (voix de conversation), ou faites glisser la ligne du sonomètre n'importe où entre les deux.",
     "guide.use.rate":
-      "Laissez la classe travailler. Le premier animal arrive après 10 à 20 secondes de calme, puis environ un toutes les cinq minutes de travail silencieux. Choisissez Tranquille, Normal ou Animé dans les réglages, ou saisissez le nombre de minutes de votre choix.",
+      "Le premier compagnon vient après 10 à 20 secondes de calme. Les suivants arrivent environ toutes les deux minutes au premier lancement. Vous pouvez espacer les rencontres ou choisir un délai personnel dans les réglages.",
     "guide.loudTitle": "Comment il décide que c'est trop bruyant",
     "guide.loud":
       "Les bruits brefs, comme un coup à la porte ou un livre qui tombe, ne comptent pas. La classe doit dépasser l'objectif un petit moment : environ six secondes si elle le dépasse à peine, ou environ une seconde si c'est beaucoup plus fort. Une fois le calme revenu, la scène s'éclaircit en trois secondes.",
@@ -1528,36 +1586,36 @@ const fr = {
       "L'étalonnage est facultatif. Cinq secondes de silence et cinq secondes de conversation normale apprennent à l'application comment sonnent votre salle et votre micro.",
     "guide.tooLoudTitle": "Ce qui se passe quand c'est trop bruyant",
     "guide.tooLoud":
-      "La scène se trouble, avec une brume de poussière sur la savane, une eau trouble sur le récif, des interférences dans l'espace profond, de la brume sur la rivière à la préhistoire, du brouillard entre les arbres en forêt, une averse tropicale dans la jungle et un blizzard tout blanc dans l'Arctique, et aucun nouvel animal ne sort. La suite dépend de votre choix :",
+      "Quand le bruit dure, une brume recouvre doucement la scène et les arrivées sont suspendues. Les bruits brefs sont tolérés. Deux réactions sont disponibles dans les réglages :",
     "guide.tooLoud.flee":
-      "Les animaux s'enfuient (par défaut). La scène se fige et, tant que la salle reste trop bruyante, un animal puis quelques autres toutes les cinq secondes s'enfuient hors de l'écran. Dans l'espace profond, ils se dissolvent plutôt dans les parasites.",
+      "Les animaux s’enfuient (option). Certains quittent la scène tant que le bruit persiste.",
     "guide.tooLoud.pause":
-      "Mettre la scène en pause. Les animaux restent immobiles, rien n'est perdu, et la progression vers le prochain animal attend que la classe se calme.",
-    "guide.animalsTitle": "Les animaux",
+      "Mettre la scène en pause (par défaut). Tous les compagnons restent présents et le temps calme déjà gagné est conservé.",
+    "guide.animalsTitle": "Les compagnons",
     "guide.animals":
-      "La savane compte 17 animaux, des suricates et des zèbres aux girafes, hippopotames et rhinocéros, avec les lions, les léopards et les éléphants parmi les plus rares. Le récif de corail en compte 18, des poissons-clowns et hippocampes aux tortues marines et pieuvres, avec les requins-marteaux, les raies manta et les requins-baleines parmi les plus rares. L'espace profond compte 17 observations pour les plus grands, des satellites, astéroïdes et astronautes à la station spatiale, aux comètes et aux planètes comme Saturne, avec une galaxie spirale, un trou noir, un pulsar et une nébuleuse annulaire parmi les plus rares. La préhistoire compte 17 animaux de la toute fin de l'ère des dinosaures, dessinés d'après la science actuelle, des petits mammifères, lézards et raptors à plumes aux Triceratops et Ankylosaurus, avec Tyrannosaurus, Quetzalcoatlus et le géant Alamosaurus parmi les plus rares. La forêt compte 17 animaux, des tamias, rouges-gorges et hérissons aux ratons laveurs, renards et cerfs, avec un loup gris, un ours noir et un élan parmi les plus rares. La jungle compte 17 animaux de la forêt tropicale, des grenouilles venimeuses, toucans et capucins aux paresseux, aras et orangs-outans, avec les jaguars, les gorilles et les tigres parmi les plus rares. L'Arctique compte 17 animaux, des lemmings, macareux et renards arctiques aux caribous, morses et bélugas, avec les ours polaires, les narvals et les baleines boréales parmi les plus rares. Les animaux communs arrivent souvent et les plus rares sont un vrai événement que beaucoup de séances ne verront pas. Chaque scène garde ses propres animaux, et la collection se souvient de tous ceux que la classe a aperçus.",
+      "La clairière accueille 16 Pokémon : Bulbizarre, Salamèche, Carapuce, Chenipan, Roucool, Pikachu, Rondoudou, Mystherbe, Psykokwak, Caninos, Ramoloss, Évoli, Ronflex, Minidraco, Dracolosse et Mew. Certains sont plus rares. La collection conserve les rencontres de chaque groupe. Les autres décors gardent leurs animaux d’origine.",
     "guide.forTitle": "Pour qui",
     "guide.for":
       "Pour les enseignants de tous niveaux qui veulent un repère visuel et apaisant du niveau de voix pendant le travail autonome, la lecture, les évaluations, les ateliers ou le travail de groupe. Toute la classe partage un seul écran et les élèves n'ont besoin de rien.",
     "guide.faqTitle": "Questions fréquentes",
-    "guide.faq.free.q": "Shy Safari est-il gratuit ?",
+    "guide.faq.free.q": "Poké Calme est-il gratuit ?",
     "guide.faq.free.a":
-      "Oui. Pas de paiement, pas de publicité, pas de version premium. Il est né de l'EdTech-a-thon, une communauté qui crée des outils gratuits pour les classes, et il est maintenu par teacher.dev.",
+      "Oui. Cette adaptation familiale n’a ni paiement, ni publicité, ni version premium. Elle repose sur le code libre de Shy Safari, avec les crédits du projet et des sprites conservés.",
     "guide.faq.record.q": "Est-ce qu'il enregistre la classe ?",
     "guide.faq.record.a":
       "Non. Le micro sert uniquement à mesurer le niveau sonore de la salle, sous la forme d'un seul nombre, instant après instant, sur votre ordinateur. Rien n'est enregistré, conservé ni envoyé nulle part.",
     "guide.faq.accounts.q": "Mes élèves ou moi avons-nous besoin d'un compte ?",
     "guide.faq.accounts.a":
-      "Non. Pas d'inscription, pas de connexion, rien à installer. Les réglages sont conservés dans le navigateur de cet ordinateur.",
+      "Non. Les réglages et les rencontres restent dans ce navigateur. Sur le site publié, une première ouverture complète prépare aussi l’utilisation hors connexion.",
     "guide.faq.devices.q": "De quoi ai-je besoin pour l'utiliser ?",
     "guide.faq.devices.a":
       "D'un ordinateur avec un micro et d'un navigateur à jour comme Chrome, Edge, Firefox ou Safari. Il fonctionne sur les ordinateurs portables, les Chromebooks et les tableaux interactifs. Il est pensé pour un vidéoprojecteur ou un grand écran, mais fonctionne aussi sur tablette ou téléphone.",
     "guide.faq.languages.q": "Quelles langues sont disponibles ?",
     "guide.faq.languages.a":
-      "L'anglais, l'espagnol et le français. Il suit la langue du navigateur, et vous pouvez la changer depuis le menu en haut de l'écran.",
+      "Le français est choisi au premier lancement. Les traductions anglaise et espagnole du projet d’origine restent accessibles depuis le menu des langues. Les noms des Pokémon restent en français.",
     "guide.faq.meter.q": "En quoi est-ce différent d'un sonomètre ?",
     "guide.faq.meter.a":
-      "Un sonomètre montre à la classe à quel point elle est bruyante, ce qui peut transformer le bruit en jeu. Shy Safari ne montre qu'une scène paisible qui se remplit peu à peu d'animaux : ce que la classe voit, c'est la récompense du travail silencieux, et il n'y a aucun score à battre.",
+      "Un sonomètre montre à la classe à quel point elle est bruyante, ce qui peut transformer le bruit en jeu. Poké Calme ne montre qu'une scène paisible qui se remplit peu à peu d'animaux : ce que la classe voit, c'est la récompense du travail silencieux, et il n'y a aucun score à battre.",
   },
   scenes: {
     space: {
@@ -1840,31 +1898,17 @@ const languages: Record<LanguageCode, Language> = {
   es,
   fr,
 };
-const STORAGE_KEY = "class-noise-level:language";
+const STORAGE_KEY = "poke-calme:language";
 
 export const languageOptions = (Object.keys(languages) as LanguageCode[]).map(
   (code) => ({ code, name: languages[code].name }),
 );
 
-export const language = $state<{ code: LanguageCode }>({ code: "en" });
+export const language = $state<{ code: LanguageCode }>({ code: "fr" });
 let initialized = false;
 
-function browserCode(): LanguageCode | null {
-  const preferred = navigator.languages?.length
-    ? navigator.languages
-    : [navigator.language];
-  for (const tag of preferred) {
-    const code = String(tag ?? "")
-      .toLowerCase()
-      .split("-")[0];
-    if (code in languages) return code as LanguageCode;
-  }
-  return null;
-}
-
 /**
- * The page is prerendered in English; this picks the saved language, or the
- * browser's own, once it is running in a browser.
+ * This adaptation starts in French and remembers an explicit language choice.
  */
 export function initializeLanguage() {
   if (!browser || initialized) return;
@@ -1878,7 +1922,7 @@ export function initializeLanguage() {
   } catch {
     // Private browsing may refuse storage; the language still works this visit.
   }
-  language.code = browserCode() ?? "en";
+  language.code = "fr";
 }
 
 export function setLanguage(code: string) {
@@ -1914,6 +1958,10 @@ export function tIn(
   key: UiKey,
   values: Record<string, string | number> = {},
 ) {
+  if (sceneId === "pokemon") {
+    const word = POKEMON_WORDING[language.code][key];
+    if (word) return fill(word, values);
+  }
   const own = (scenes: SceneWording) =>
     (scenes as Partial<Record<SceneId, Partial<Record<UiKey, string>>>>)[
       sceneId
@@ -1924,7 +1972,11 @@ export function tIn(
 
 /** A Creature's name, by the slug its artwork is filed under. */
 export function creatureName(slug: string): string {
-  return current().creatures[slug as CreatureSlug] ?? slug;
+  return (
+    POKEMON.find((pokemon) => pokemon.slug === slug)?.name ??
+    current().creatures[slug as CreatureSlug] ??
+    slug
+  );
 }
 
 /** A Class's name, or "My class" in this language if it has none yet. */

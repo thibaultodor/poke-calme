@@ -1,3 +1,4 @@
+<!-- Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md. -->
 <script lang="ts">
   /**
    * The frame the about and privacy pages share. Unlike the Scene these are
@@ -30,7 +31,7 @@
         class="flex items-center gap-2 text-lg font-semibold tracking-tight hover:text-slate-600"
       >
         <img src={logoUrl} alt="" class="size-9" />
-        Shy Safari
+        Poké Calme
       </a>
       <div class="flex items-center gap-2">
         <a
@@ -53,21 +54,21 @@
     class="mx-auto flex w-full max-w-3xl flex-wrap items-center justify-center gap-x-4 gap-y-2 px-4 pb-6 text-center text-sm text-slate-600"
   >
     <a
-      href="https://teacher.dev"
+      href="https://github.com/teacherdotdev/shy-safari"
       target="_blank"
       rel="noopener noreferrer"
       class="flex items-center gap-2 hover:text-slate-900"
     >
-      <img src={asset("/edtechathon-logo.svg")} alt="" class="size-6" />
+      <img src={asset("/favicon.svg")} alt="" class="size-6" />
       {t("common.builtBy")}
     </a>
     <a href={resolve("/#how-it-works")} class="hover:text-slate-900"
       >{t("common.howItWorks")}</a
     >
-    <a href={resolve("/about")} class="hover:text-slate-900"
+    <a href={resolve("/about/")} class="hover:text-slate-900"
       >{t("common.about")}</a
     >
-    <a href={resolve("/privacy")} class="hover:text-slate-900"
+    <a href={resolve("/privacy/")} class="hover:text-slate-900"
       >{t("common.privacy")}</a
     >
   </footer>

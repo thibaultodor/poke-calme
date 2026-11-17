@@ -1,3 +1,4 @@
+// Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md.
 /**
  * Which new Scenes the teacher has yet to see in a Scene menu, so the
  * buttons that open one can flag them (`SceneDef.isNew`).
@@ -12,7 +13,7 @@
 import { browser } from "$app/environment";
 import { availableScenes, type SceneDef, type SceneId } from "$lib/scenes";
 
-const STORAGE_KEY = "class-noise-level:seen-scenes";
+const STORAGE_KEY = "poke-calme:seen-scenes";
 
 function load(): SceneId[] {
   if (!browser) return [];

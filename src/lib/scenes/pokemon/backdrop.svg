@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" preserveAspectRatio="none" shape-rendering="crispEdges">
+  <defs>
+    <linearGradient id="pokemon-sky" x2="0" y2="1"><stop stop-color="#b9dcd3"/><stop offset="1" stop-color="#edf1c9"/></linearGradient>
+    <pattern id="pokemon-grass" width="38" height="27" patternUnits="userSpaceOnUse"><path d="M3 8v-2h2v2h2v-3h2v4H3M27 23v-2h2v2h2v-3h2v4h-6" fill="#81ad70" opacity=".38"/></pattern>
+    <g id="pokemon-tree"><path d="M-2 0h5v-22h-5" fill="#6d8060"/><path d="M-17-12h34v-8h6v-16h-7v-10H6v-8H-7v7h-10v10h-6v16h6" fill="#5d946d"/><path d="M-15-22h28v-7h5v-10H8v-9H-5v9h-10" fill="#7eaf7a"/><path d="M-15-16h29v-5h-29" fill="#4c8263"/></g>
+  </defs>
+  <path fill="url(#pokemon-sky)" d="M0 0h480v160H0z"/>
+  <path d="M383 25h18v6h6v18h-6v6h-18v-6h-6V31h6" fill="#f9f1c6"/>
+  <path d="M0 116h24v-9h29V94h30v-9h20v9h20v12h35v-9h25v-9h20v10h30v13h20v-9h26v-9h22v9h30v12h34v-10h26v-9h22v10h23v10h26v-11h20v14h23v31H0" fill="#a5c6a1"/>
+  <path d="M0 131h22v-10h20v10h18v-18h20v15h20v-9h21v12h28v-13h25v12h18v-8h24v13h24v-20h20v13h22v-8h26v10h27v-12h21v12h25v-9h25v13h26v-16h22v13h21v-9h22v14h21v18H0" fill="#8db28a"/>
+  <path d="M0 142h480v128H0z" fill="#a9cb85"/>
+  <path d="M0 145h480v10H0z" fill="#98be7b"/>
+  <path d="M220 149h29v14h-13v14h-15v15h-11v15h-13v16h-10v14h-12v33h-40v-33h13v-16h13v-17h15v-16h13v-15h15v-12h16" fill="#d8d3a0"/>
+  <path d="M226 149h11v15h-13v13h-13v16h-11v15h-13v16h-10v14h-12v32h-13v-34h13v-17h13v-17h14v-16h13v-15h14v-12h7" fill="#e3ddad"/>
+  <path fill="url(#pokemon-grass)" d="M0 156h480v114H0z"/>
+  <g><use href="#pokemon-tree" x="13" y="159"/><use href="#pokemon-tree" x="47" y="151"/><use href="#pokemon-tree" x="78" y="156"/><use href="#pokemon-tree" x="111" y="147"/><use href="#pokemon-tree" x="145" y="155"/><use href="#pokemon-tree" x="184" y="148"/><use href="#pokemon-tree" x="283" y="151"/><use href="#pokemon-tree" x="320" y="149"/><use href="#pokemon-tree" x="354" y="154"/><use href="#pokemon-tree" x="391" y="149"/><use href="#pokemon-tree" x="428" y="158"/><use href="#pokemon-tree" x="465" y="151"/></g>
+  <g fill="#f3eac3"><path d="M48 195h3v3h-3zM52 198h3v3h-3zM376 175h3v3h-3zM382 178h3v3h-3zM301 240h3v3h-3zM307 243h3v3h-3zM93 249h3v3h-3z"/></g>
+  <g fill="#c88f87"><path d="M53 192h3v3h-3zM380 172h3v3h-3zM305 237h3v3h-3zM89 246h3v3h-3z"/></g>
+  <path d="M0 260h15v-7h12v7h14v10H0M433 270v-10h10v-8h14v8h23v10" fill="#80ac72"/>
+</svg>

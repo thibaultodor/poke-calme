@@ -1,3 +1,4 @@
+// Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md.
 /**
  * The Scenes a teacher can choose between. Each one brings its own Roster,
  * artwork and Ambient Life; everything else — the Session, the arrival clock,
@@ -57,6 +58,10 @@ import spaceIcon from "./space/icon.svg";
 import { SPACE_NOTE } from "./space/note";
 import { SPACE_ROSTER } from "./space/roster";
 import type { Arrivals, CreatureDef, SceneId } from "./types";
+import PokemonAmbient from "./pokemon/AmbientLife.svelte";
+import pokemonBackdrop from "./pokemon/backdrop.svg?raw";
+import pokemonIcon from "./pokemon/icon.svg";
+import { POKEMON_ROSTER } from "./pokemon/catalog";
 
 export type { SceneId };
 
@@ -130,6 +135,20 @@ export interface SceneDef {
 }
 
 export const SCENES: Record<SceneId, SceneDef> = {
+  pokemon: {
+    id: "pokemon",
+    icon: pokemonIcon,
+    roster: POKEMON_ROSTER,
+    // PNG sheets use their own renderer, including in the collection.
+    creatureArt: {},
+    listeningArt: {},
+    ambientArt: { backdrop: pokemonBackdrop },
+    Ambient: PokemonAmbient,
+    depthFade: false,
+    note: FOREST_NOTE,
+    departure: "run",
+    whilePaused: "listen",
+  },
   savanna: {
     id: "savanna",
     icon: savannaIcon,

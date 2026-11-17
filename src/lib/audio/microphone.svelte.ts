@@ -1,3 +1,4 @@
+// Modifié pour Poké Calme (2026) : reprise et interruption du micro, voir NOTICE.md.
 /**
  * The microphone: raw room loudness, ten times a second.
  *
@@ -19,6 +20,8 @@ export type MicrophoneStatus =
   | "denied"
   /** The chosen device has gone away, or there is no input at all. */
   | "missing"
+  /** The audio input or browser audio engine is temporarily suspended. */
+  | "interrupted"
   /** No getUserMedia or no AudioContext in this browser. */
   | "unsupported";
 
@@ -56,8 +59,12 @@ export class Microphone {
 
   async refreshDevices() {
     if (!navigator.mediaDevices?.enumerateDevices) return;
-    const all = await navigator.mediaDevices.enumerateDevices();
-    this.devices = all.filter((device) => device.kind === "audioinput");
+    try {
+      const all = await navigator.mediaDevices.enumerateDevices();
+      this.devices = all.filter((device) => device.kind === "audioinput");
+    } catch {
+      // Device names are optional; an enumeration failure must not leak a stream.
+    }
   }
 
   stop() {
@@ -74,6 +81,8 @@ export class Microphone {
     this.#teardown();
     this.#teardown = () => {};
     this.status = "starting";
+    this.rawLevel = 0;
+    this.unsmoothedLevel = 0;
 
     const AudioContextClass =
       typeof window === "undefined"
@@ -88,6 +97,8 @@ export class Microphone {
     }
 
     let stream: MediaStream | undefined;
+    let context: AudioContext | undefined;
+    let release = () => {};
     try {
       stream = await navigator.mediaDevices.getUserMedia({
         audio: deviceId ? { deviceId: { exact: deviceId } } : true,
@@ -101,7 +112,17 @@ export class Microphone {
         return false;
       }
 
-      const context = new AudioContextClass();
+      context = new AudioContextClass();
+      const audio = context;
+      release = () => {
+        for (const track of stream?.getTracks() ?? []) track.stop();
+        void audio.close().catch(() => {});
+      };
+      await audio.resume();
+      if (generation !== this.#generation) {
+        release();
+        return false;
+      }
       const analyser = context.createAnalyser();
       analyser.fftSize = 1024;
       context.createMediaStreamSource(stream).connect(analyser);
@@ -111,7 +132,10 @@ export class Microphone {
       // Device labels are blank until permission is granted, so this second
       // pass is what turns "Microphone 2" into the real device name.
       await this.refreshDevices();
-      this.status = "on";
+      if (generation !== this.#generation) {
+        release();
+        return false;
+      }
 
       const samples = new Uint8Array(analyser.fftSize);
       let frame = 0;
@@ -121,7 +145,39 @@ export class Microphone {
       let windowSum = 0;
       let windowFrames = 0;
 
+      const tracks = stream.getAudioTracks();
+      const updateStatus = () => {
+        if (generation !== this.#generation) return;
+        if (tracks.some((track) => track.readyState === "ended")) {
+          this.#teardown();
+          this.#teardown = () => {};
+          this.status = "missing";
+        } else {
+          this.status =
+            audio.state === "running" && tracks.every((track) => !track.muted)
+              ? "on"
+              : "interrupted";
+        }
+        if (this.status !== "on") {
+          this.rawLevel = 0;
+          this.unsmoothedLevel = 0;
+        }
+      };
+      for (const track of tracks) {
+        track.addEventListener("ended", updateStatus);
+        track.addEventListener("mute", updateStatus);
+        track.addEventListener("unmute", updateStatus);
+      }
+      audio.addEventListener("statechange", updateStatus);
+
       const measure = () => {
+        updateStatus();
+        if (this.status === "missing" || generation !== this.#generation)
+          return;
+        if (this.status !== "on") {
+          frame = requestFrame(measure);
+          return;
+        }
         analyser.getByteTimeDomainData(samples);
         let sumSquares = 0;
         for (const sample of samples) sumSquares += (sample - 128) ** 2;
@@ -147,26 +203,39 @@ export class Microphone {
         }
         frame = requestFrame(measure);
       };
-      measure();
-
       const activeStream = stream;
       this.#teardown = () => {
         cancelFrame(frame);
-        for (const track of activeStream.getTracks()) track.stop();
-        void context.close();
+        audio.removeEventListener("statechange", updateStatus);
+        for (const track of activeStream.getTracks()) {
+          track.removeEventListener("ended", updateStatus);
+          track.removeEventListener("mute", updateStatus);
+          track.removeEventListener("unmute", updateStatus);
+          track.stop();
+        }
+        void audio.close().catch(() => {});
       };
-      return true;
+      release = this.#teardown;
+      measure();
+      return (
+        tracks.length > 0 &&
+        audio.state === "running" &&
+        tracks.every((track) => !track.muted && track.readyState === "live")
+      );
     } catch (error) {
       // An AudioContext failure after the stream was granted would otherwise
       // leave the browser's recording indicator lit with nothing to turn it
       // off.
       if (stream) for (const track of stream.getTracks()) track.stop();
+      release();
       if (generation !== this.#generation) return false;
       const name = (error as DOMException)?.name;
       this.status =
         name === "NotFoundError" || name === "OverconstrainedError"
           ? "missing"
-          : "denied";
+          : name === "NotReadableError" || name === "AbortError"
+            ? "interrupted"
+            : "denied";
       return false;
     }
   }

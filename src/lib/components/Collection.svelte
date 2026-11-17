@@ -1,3 +1,4 @@
+<!-- Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md. -->
 <script lang="ts" module>
   // The cards show the art as an image rather than inline: they never animate,
   // and one URL per animal, kept for the page's life, lets the browser reuse
@@ -13,6 +14,8 @@
 </script>
 
 <script lang="ts">
+  import PokemonSprite from "$lib/scenes/pokemon/PokemonSprite.svelte";
+  import { modal } from "$lib/ui/modal";
   /**
    * Every animal a Scene can bring, by rarity, with how many times each has
    * arrived for the Class on screen. Animals not seen yet show as silhouettes, so
@@ -101,12 +104,6 @@
   );
 </script>
 
-<svelte:window
-  onkeydown={(event) => {
-    if (event.key === "Escape") onclose();
-  }}
-/>
-
 <div
   class="safe-edges absolute inset-0 z-50 flex items-center justify-center bg-slate-900/40"
   role="presentation"
@@ -115,6 +112,8 @@
   <div
     class="relative flex max-h-full w-full max-w-3xl flex-col rounded-xl bg-white shadow-xl"
     role="dialog"
+    use:modal={onclose}
+    tabindex="-1"
     aria-modal="true"
     aria-label={tIn(sceneId, "collection.title")}
   >
@@ -241,15 +240,19 @@
                       class="flex h-12 w-full items-center justify-center"
                       class:unseen={count === 0}
                     >
-                      <img
-                        src={artUrl(
-                          `${sceneId}/${def.slug}`,
-                          scene.creatureArt[def.slug],
-                        )}
-                        alt=""
-                        draggable="false"
-                        class="size-full object-contain"
-                      />
+                      {#if sceneId === "pokemon"}
+                        <PokemonSprite slug={def.slug} />
+                      {:else}
+                        <img
+                          src={artUrl(
+                            `${sceneId}/${def.slug}`,
+                            scene.creatureArt[def.slug],
+                          )}
+                          alt=""
+                          draggable="false"
+                          class="size-full object-contain"
+                        />
+                      {/if}
                     </div>
                     <!-- Long names break at their soft hyphens (see i18n) to fit the card. -->
                     <span

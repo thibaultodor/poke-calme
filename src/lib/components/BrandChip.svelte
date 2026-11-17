@@ -1,3 +1,4 @@
+<!-- Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md. -->
 <script lang="ts">
   /**
    * The footer, folded into a corner.
@@ -47,7 +48,7 @@
     title={t("brand.title")}
     onclick={() => (pinned = !pinned)}
   >
-    <img src={asset("/edtechathon-logo.svg")} alt="" class="size-7" />
+    <img src={asset("/favicon.svg")} alt="" class="size-7" />
   </button>
 
   <!-- Always in the document, so the button keeps something to point its
@@ -63,19 +64,20 @@
       class="flex w-max flex-col items-start gap-1 rounded-2xl bg-white/95 px-4 py-2.5 shadow-lg"
     >
       <a
-        href="https://teacher.dev"
+        href="https://github.com/teacherdotdev/shy-safari"
         target="_blank"
         rel="noopener noreferrer"
         class="text-sm font-semibold text-slate-900 hover:underline"
         >{t("common.builtBy")}</a
       >
       <p class="flex items-center gap-2 text-xs font-medium text-slate-600">
-        <a href={resolve("/about")} class="hover:text-slate-900 hover:underline"
-          >{t("common.about")}</a
+        <a
+          href={resolve("/about/")}
+          class="hover:text-slate-900 hover:underline">{t("common.about")}</a
         >
         <span aria-hidden="true" class="text-slate-300">·</span>
         <a
-          href={resolve("/privacy")}
+          href={resolve("/privacy/")}
           class="hover:text-slate-900 hover:underline">{t("common.privacy")}</a
         >
       </p>

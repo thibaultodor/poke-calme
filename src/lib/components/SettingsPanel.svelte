@@ -1,3 +1,4 @@
+<!-- Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md. -->
 <script lang="ts">
   /**
    * Everything the teacher can change, in one panel used both before and
@@ -23,6 +24,9 @@
   import Calibration from "./Calibration.svelte";
   import HalloweenPreview from "./HalloweenPreview.svelte";
   import LevelMeter from "./LevelMeter.svelte";
+  import { resolve } from "$app/paths";
+  import { modal } from "$lib/ui/modal";
+  import OfflineStatus from "./OfflineStatus.svelte";
 
   let { app, onclose }: { app: App; onclose: () => void } = $props();
 
@@ -35,8 +39,8 @@
     (typeof ARRIVAL_RATE_PRESETS)["normal"],
   ][];
 
-  /** Run away first: it is the default. */
-  const LOUD_RESPONSES: LoudResponse[] = ["flee", "pause"];
+  /** The CP adaptation uses the gentle pause by default. */
+  const LOUD_RESPONSES: LoudResponse[] = ["pause", "flee"];
 
   let previewOpen = $state(false);
 </script>
@@ -46,7 +50,11 @@
   role="presentation"
   onclick={(event) => event.target === event.currentTarget && onclose()}
 >
-  <aside
+  <div
+    use:modal={onclose}
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
     class="h-full w-full max-w-md overflow-y-auto bg-white p-4 pr-[max(1rem,env(safe-area-inset-right))] pb-[max(1rem,env(safe-area-inset-bottom))] shadow-xl sm:p-6 sm:pr-[max(1.5rem,env(safe-area-inset-right))] sm:pb-[max(1.5rem,env(safe-area-inset-bottom))]"
     aria-label={t("settings.title")}
   >
@@ -65,6 +73,7 @@
         {t("settings.microphone")}
       </h2>
       <select
+        aria-label={t("settings.microphone")}
         class="w-full rounded-md border border-slate-300 px-3 py-2"
         value={settings.deviceId}
         onchange={(event) => app.selectDevice(event.currentTarget.value)}
@@ -78,6 +87,7 @@
       </select>
       {#if app.microphone.status !== "on"}
         <button
+          disabled={app.microphone.status === "starting"}
           class="rounded-md border border-slate-400 px-3 py-1.5 text-sm font-medium hover:bg-slate-50"
           onclick={() => app.connect()}
         >
@@ -243,12 +253,23 @@
       <h2 class="text-sm font-semibold tracking-wide text-slate-500 uppercase">
         {t("settings.tryIt")}
       </h2>
-      <button
-        class="rounded-md border border-slate-400 px-3 py-1.5 text-sm font-medium hover:bg-slate-50"
-        onclick={() => app.session.summonAll()}
-      >
-        {tIn(app.scene.id, "settings.summon")}
-      </button>
+      {#if app.scene.id === "pokemon"}
+        <a
+          href={resolve("/demo/")}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-900 hover:bg-emerald-100"
+          >{t("demo.open")}</a
+        >
+        <p class="text-xs leading-relaxed text-slate-500">{t("demo.hint")}</p>
+      {:else}
+        <button
+          class="rounded-md border border-slate-400 px-3 py-1.5 text-sm font-medium hover:bg-slate-50"
+          onclick={() => app.session.summonAll()}
+        >
+          {tIn(app.scene.id, "settings.summon")}
+        </button>
+      {/if}
       {#if app.scene.id === "halloween"}
         <details class="group">
           <summary
@@ -277,7 +298,19 @@
     <p class="mt-6 text-xs text-slate-500">
       {t("settings.savedNote")}
     </p>
-  </aside>
+    <OfflineStatus />
+    <p class="mt-3 text-xs text-slate-500">{t("keyboard.pause")}</p>
+    {#if app.listening}
+      <button
+        type="button"
+        class="mt-4 w-full rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+        onclick={() => {
+          onclose();
+          app.disconnect();
+        }}>{t("mic.disconnect")}</button
+      >
+    {/if}
+  </div>
 
   {#if previewOpen}
     <HalloweenPreview onclose={() => (previewOpen = false)} />

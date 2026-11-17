@@ -1,3 +1,4 @@
+<!-- Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md. -->
 <script lang="ts" module>
   /** The link that opens the drawer, from this page or any other. */
   export const INFO_HASH = "#how-it-works";
@@ -15,7 +16,7 @@
 
 <script lang="ts">
   /**
-   * What the Scene only shows, said in words: what Shy Safari is, how to use
+   * What the Scene only shows, said in words: what Poké Calme is, how to use
    * it and what teachers ask about it.
    *
    * Unlike Settings it is always in the document, and closing it only hides

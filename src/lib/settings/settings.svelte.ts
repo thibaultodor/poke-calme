@@ -1,3 +1,4 @@
+// Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md.
 /**
  * Everything the teacher chooses, remembered on this computer.
  *
@@ -41,7 +42,7 @@ export const ARRIVAL_RATE_PRESETS: Record<
 export const MIN_ARRIVAL_MINUTES = 1;
 export const MAX_ARRIVAL_MINUTES = 60;
 
-const STORAGE_KEY = "class-noise-level:settings";
+const STORAGE_KEY = "poke-calme:settings";
 
 interface StoredSettings {
   scene: SceneId;
@@ -64,9 +65,9 @@ const DEFAULTS: StoredSettings = {
   calibration: null,
   volumeGoalPreset: "independent",
   volumeGoal: VOLUME_GOAL_PRESETS.independent.goal,
-  arrivalRatePreset: "normal",
-  arrivalMinutes: ARRIVAL_RATE_PRESETS.normal.minutes,
-  loudResponse: "flee",
+  arrivalRatePreset: "lively",
+  arrivalMinutes: ARRIVAL_RATE_PRESETS.lively.minutes,
+  loudResponse: "pause",
   showMeter: false,
   showCounter: false,
 };

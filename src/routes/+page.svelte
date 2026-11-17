@@ -1,4 +1,6 @@
+<!-- Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md. -->
 <script lang="ts">
+  import { resolve } from "$app/paths";
   import { App } from "$lib/app.svelte";
   import { classes } from "$lib/classes/classes.svelte";
   import ClassesPanel from "$lib/components/ClassesPanel.svelte";
@@ -29,6 +31,8 @@
   import { mount, onMount, tick, unmount } from "svelte";
   import { settings } from "$lib/settings/settings.svelte";
   import logoUrl from "$lib/brand/logo.svg";
+  import PokemonSprite from "$lib/scenes/pokemon/PokemonSprite.svelte";
+  import OfflineStatus from "$lib/components/OfflineStatus.svelte";
   import { PREVIEW_IMAGE, absoluteUrl } from "$lib/site";
 
   const app = new App();
@@ -39,7 +43,7 @@
    */
   const webApplication = $derived({
     "@type": "WebApplication",
-    name: "Shy Safari",
+    name: "Poké Calme",
     url: absoluteUrl("/"),
     description: t("app.description"),
     image: PREVIEW_IMAGE,
@@ -50,11 +54,6 @@
     isAccessibleForFree: true,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     audience: { "@type": "EducationalAudience", educationalRole: "teacher" },
-    publisher: {
-      "@type": "Organization",
-      name: "teacher.dev",
-      url: "https://teacher.dev",
-    },
   });
 
   const faqPage = $derived({
@@ -163,7 +162,7 @@
       // 4:3, the Scene's own shape, and small enough to sit beside a slide.
       pip = await controller.requestWindow({ width: 480, height: 360 });
       const page = pip.document;
-      page.title = "Shy Safari";
+      page.title = "Poké Calme";
       page.documentElement.lang = current().locale;
       // Scales the corner controls with the window: see layout.css.
       page.documentElement.classList.add("floating");
@@ -210,13 +209,42 @@
       // normal window, and browser chrome is the only thing they lose.
     }
   }
+
+  function keyboard(event: KeyboardEvent) {
+    wake();
+    const target = event.target;
+    if (
+      event.code !== "Space" ||
+      event.repeat ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey ||
+      !app.listening ||
+      !app.session.running ||
+      settingsOpen ||
+      collectionOpen ||
+      classesOpen ||
+      infoOpen ||
+      classMenuOpen ||
+      sceneMenuOpen ||
+      document.querySelector("dialog[open]")
+    )
+      return;
+    if (
+      target instanceof HTMLElement &&
+      target.closest("input, textarea, select, button, a, [contenteditable]")
+    )
+      return;
+    event.preventDefault();
+    app.setPaused(!app.paused);
+  }
 </script>
 
 <!-- Pointer events too: a Smartboard pen drawing on a Note sends no mouse
      or touch events of its own, and must not let the controls fade. -->
 <svelte:window
   onmousemove={wake}
-  onkeydown={wake}
+  onkeydown={keyboard}
   ontouchstart={wake}
   onpointerdown={wake}
   onpointermove={wake}
@@ -288,16 +316,30 @@
           class="grid min-h-full place-items-center p-4 sm:p-6 short:px-30 short:py-3"
         >
           <div
-            class="max-w-lg rounded-xl bg-white p-6 text-center shadow-xl short:px-6 short:py-4"
+            class="welcome-card max-w-lg rounded-3xl bg-white/95 p-6 text-center shadow-xl backdrop-blur-sm short:px-6 short:py-4"
           >
             <img
               src={logoUrl}
               alt=""
-              class="mx-auto mb-3 size-24 short:mb-1 short:size-14"
+              class="mx-auto mb-2 size-12 short:mb-1 short:size-10"
             />
-            <h1 class="text-2xl font-semibold text-slate-900 short:text-xl">
-              Shy Safari
+            <h1
+              class="text-3xl font-semibold tracking-tight text-slate-900 short:text-xl"
+            >
+              Poké Calme
             </h1>
+            <p class="mt-1 text-sm text-slate-500">{t("welcome.tagline")}</p>
+            {#if app.scene.id === "pokemon"}
+              <div
+                class="mx-auto mt-3 flex h-16 w-48 items-end justify-center gap-2 short:hidden"
+                aria-label={t("welcome.companions")}
+                role="img"
+              >
+                {#each ["pmd-bulbasaur", "pmd-pikachu", "pmd-eevee"] as slug (slug)}
+                  <div class="h-16 w-14"><PokemonSprite {slug} /></div>
+                {/each}
+              </div>
+            {/if}
             <p
               class="mt-3 rounded-lg bg-amber-50 px-4 py-3 text-balance text-slate-800 short:mt-2 short:py-2 short:text-sm"
             >
@@ -315,16 +357,32 @@
               <SceneSelect {app} />
             </div>
             <button
-              class="mt-4 rounded-full bg-slate-900 px-6 py-2.5 font-medium text-white short:mt-3"
-              onclick={async () => {
-                if (await app.connect()) app.startSession();
-              }}
+              class="mt-4 rounded-full bg-slate-900 px-6 py-2.5 font-medium text-white disabled:opacity-50 short:mt-3"
+              disabled={!app.restored || app.microphone.status === "starting"}
+              aria-busy={app.microphone.status === "starting"}
+              onclick={() => app.begin()}
             >
-              {t("start.button")}
+              {t(
+                !app.restored
+                  ? "start.loading"
+                  : app.microphone.status === "starting"
+                    ? "start.connecting"
+                    : app.session.creatures.length
+                      ? "start.resume"
+                      : "start.button",
+              )}
             </button>
+            <p class="mt-3 text-sm">
+              <a
+                href={resolve("/demo/")}
+                class="text-emerald-800 underline underline-offset-4"
+                >{t("demo.withoutMic")}</a
+              >
+            </p>
             <p class="mt-3 text-xs text-slate-500 short:mt-2">
               {t("start.micNote")}
             </p>
+            <OfflineStatus />
           </div>
         </div>
       </div>

@@ -1,18 +1,14 @@
+// Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md.
 import tailwindcss from "@tailwindcss/vite";
 import adapter from "@sveltejs/adapter-static";
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  server: {
-    allowedHosts: ["class-noise-level.edtechathon.com"],
-  },
-  // Expose the Cloudflare Web Analytics token (set only as a build variable on
-  // the production Cloudflare build) to client code.
-  envPrefix: ["VITE_", "CF_BEACON_TOKEN"],
   plugins: [
     tailwindcss(),
     sveltekit({
+      paths: { base: (process.env.BASE_PATH ?? "") as "" | `/${string}` },
       compilerOptions: {
         // Force runes mode for the project, except for libraries. Can be removed in svelte 6.
         runes: ({ filename }) =>

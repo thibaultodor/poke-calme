@@ -1,111 +1,105 @@
-# Shy Safari
+# Poké Calme
 
-A calm scene on the classroom projector — a savanna, a coral reef, deep
-space, the age of dinosaurs, a woodland clearing, the jungle or the Arctic — where animals (or, in deep space, sightings
-through a telescope) come out the longer the room stays quiet. The animals are shy: if the room is too loud,
-they stay hidden until it is calm again.
+Une clairière Pokémon pour accompagner le travail calme en CP.
+Adaptation indépendante de [Shy Safari](https://github.com/teacherdotdev/shy-safari).
 
-It is the opposite of a noise meter. There is no bouncing, no score, no red
-warning light — nothing that makes being loud more interesting than being
-quiet. The class starts with an empty scene. The first animal comes out
-after 10–20 quiet seconds, as a taste of what is coming; after that, every few
-minutes of quiet working brings another one. Some of them are rare.
+16 Pokémon Donjon Mystère se promènent dans huit directions, font de petites
+pauses et regardent la classe lorsque l’enseignante prend la parole.
 
-## What a teacher does
+## Pour la classe
 
-1. Open the page and press **Start listening**. The browser asks for the
-   microphone; audio is measured on the computer and never recorded or sent
-   anywhere.
-   Pick **Savanna** (zebras, giraffes, lions), **Coral reef** (fish,
-   turtles, sharks), **Deep space** (satellites, comets, galaxies),
-   **Prehistoric** (T. rex, Triceratops, feathered raptors), **Forest**
-   (squirrels, foxes, deer), **Jungle** (sloths, toucans, jaguars) or
-   **Arctic** (polar bears, seals, narwhals) first if you like. Deep space and
-   the prehistoric scene are drawn to appeal to older students too.
-2. Press **Start**. The class begins earning animals.
-3. Move the mouse to bring up the controls. **Settings** has everything:
-   which scene, which microphone, how loud is too loud, and how often animals
-   arrive. Each scene keeps its own animals, so switching never loses any.
+- Premier compagnon après 10 à 20 secondes de calme, puis environ toutes les
+  deux minutes par défaut. Le rythme et le seuil sont réglables.
+- Par défaut, le bruit suspend les rencontres sans retirer les Pokémon gagnés.
+- Pause avec le bouton ou la touche **Espace**, minuteur, consignes et collection.
+- Plusieurs groupes, avec leurs rencontres et leurs notes conservées séparément.
+- Démonstration sans micro et sans effet sur la progression de la classe.
+- Apparition depuis les hautes herbes, avec bruissement et bulle d’exclamation.
+- Rares siestes de 30 à 120 secondes avec les sprites de sommeil d’origine.
+  Dans la démo, « Une nouvelle rencontre » et « Voir une sieste » permettent
+  de les essayer immédiatement. Le bouton Pause réveille les Pokémon.
+- Français au premier lancement ; interfaces anglaise et espagnole disponibles.
+- Aucun compte, publicité ni outil de mesure d’audience. Le son reste sur l’appareil.
+- Site publié utilisable hors connexion après sa première préparation complète.
 
-That is the whole app. No account, no sign-in, nothing to install.
+![La clairière](static/og-image.png)
 
-## How it decides the room is too loud
+## Démarrer dans WebStorm
 
-The teacher sets a **Volume Goal** — Silent, Independent or Partner work, or
-anywhere in between by dragging the line on the meter. While the room stays
-under it, animals arrive. To watch the room's level live without opening
-Settings, turn on **Show on screen** beside the Noise Meter: it stays at the
-top of the scene until you turn it off.
+Sous Windows, double-cliquer sur **DEMARRER.cmd**. Le lanceur utilise Bun,
+ou le prépare avec Node.js si nécessaire. Le premier lancement demande une
+connexion Internet. Aucun outil n’est installé globalement par le lanceur.
 
-Going over the line does not instantly stop anything. Noise over the goal
-fills up a bucket, and the further over, the faster it fills: just over the
-line takes about **six seconds** to pause arrivals, far over takes about
-**one second**. Quiet moments drain the bucket again, so a knock at the door or
-a dropped book costs the class nothing. Recovery takes only **three seconds**,
-because a class that settles down should be rewarded immediately rather than
-serve a sentence.
+Une fois les dépendances installées, WebStorm propose la configuration
+partagée **Poké Calme** dans la liste Exécuter. Le bouton à côté du script
+`dev` dans `package.json` fonctionne aussi.
 
-When the room is too loud, the whole scene slowly clouds over — a dusty haze
-on the savanna, murky water on the reef, interference in deep space, mist off the river in the
-prehistoric scene, fog between the trees in the forest, a tropical downpour in the jungle, a whiteout of blowing snow in the Arctic. That is
-the only signal the class sees. The shy animals simply wait to come out:
-nothing already out runs away, nothing gets startled, and progress
-toward the next animal pauses rather than resetting — a loud spell costs
-exactly the time it lasted. This is deliberate; see
-[docs/adr/0001](docs/adr/0001-nothing-is-taken-away.md).
-
-**Calibration** is optional. The app works on a sensible default, and
-calibrating — five seconds of silence, five seconds of normal talking — makes
-the meter match your room and your microphone.
-
-## Running it locally
-
-This project lives in a shared workspace where several agents run dev servers
-at once, so ports are leased rather than hardcoded. From the **workspace
-root**:
+Avec [Bun](https://bun.sh/docs/installation) :
 
 ```sh
-./scripts/agent-dev.mjs class-noise-level --no-pocketbase
+bun install --frozen-lockfile
+bun run dev
 ```
 
-Other useful commands, from this directory:
+Ouvrir l’adresse affichée. Garder le serveur ouvert pendant l’utilisation
+locale ; `Ctrl+C` l’arrête. Le microphone demande HTTPS ou localhost.
+
+## Publier et personnaliser
+
+Le **[guide GitHub](GUIDE-GITHUB.md)** explique le travail avec ton fork et
+la première publication sur GitHub Pages. Les chemins sont calculés
+automatiquement, même si le dépôt est renommé.
+
+| Modification                                       | Fichier                                              |
+| -------------------------------------------------- | ---------------------------------------------------- |
+| Pokémon, noms et rareté                            | `src/lib/scenes/pokemon/catalog.ts`                  |
+| Import des seules animations utiles et des crédits | `bun run sprites:import`                             |
+| Touffe de hautes herbes                            | `src/lib/scenes/pokemon/effects/grass-tuft.svg`      |
+| Déplacements                                       | `src/lib/scenes/pokemon/walk.ts`                     |
+| Fréquence et durée des siestes                     | `src/lib/scenes/pokemon/nap.ts`                      |
+| Déroulement d’une apparition                       | `src/lib/scenes/pokemon/encounter.ts`                |
+| Décor                                              | `src/lib/scenes/pokemon/backdrop.svg` et `scene.css` |
+| Réglages par défaut                                | `src/lib/settings/settings.svelte.ts`                |
+| Textes Pokémon                                     | `src/lib/i18n/pokemon.ts`                            |
+| Publication                                        | `.github/workflows/pages.yml`                        |
+
+Les anciens décors de Shy Safari restent disponibles. Les PNG Pokémon et
+leurs métadonnées sont inclus dans le projet : aucune API n’est appelée en classe.
+
+Les planches utilisées à l’écran ajoutent des marges transparentes entre les
+images pour éviter les lignes parasites aux tailles intermédiaires. Les
+originaux restent dans `assets/` ; `bun run sprites:pad` régénère les copies
+dans `atlases/`, sans téléchargement. L’import des sprites les prépare aussi.
+
+## Vérifier une modification
 
 ```sh
-bun run check    # typecheck
-bun test         # unit tests
-bun run lint     # prettier + eslint
-bun run build    # static production build into build/
-bun run build && bunx wrangler dev   # the built site, served the way Cloudflare serves it
+bun run check
+bun test
+bun run lint
+bun run build
+bunx playwright install chromium
+bun run test:browser
 ```
 
-The site is hosted on Cloudflare Workers as static assets (`wrangler.jsonc`), with
-`static/_redirects` and `static/_headers` for redirects and caching.
-`www.shysafari.com` is the canonical origin and `shysafari.com` redirects to it;
-keep it that way, because every class's settings and notes live in that origin's
-localStorage.
+Le test de navigateur démarre et arrête son propre aperçu. Il utilise un
+microphone simulé et ne demande pas d’accès au vrai micro. Il vérifie aussi
+le mode hors connexion. La préparation Chromium n’est nécessaire qu’une fois.
+Le workflow GitHub effectue ces vérifications avant de publier.
 
-Cloudflare Web Analytics is added to the build only when `CF_BEACON_TOKEN` is
-set, which it is only as a build variable on the production Cloudflare build.
+## Crédits et droits
 
-## How it is put together
+Code Apache 2.0 : [LICENSE.txt](LICENSE.txt), [NOTICE.md](NOTICE.md).
+Sprites [PMDCollab / SpriteCollab](https://github.com/PMDCollab/SpriteCollab) :
+[crédits détaillés](static/credits/pmd/CREDITS.md), avec les droits propres
+des contributions communautaires et des sprites officiels crédités CHUNSOFT.
+La touffe actuelle est un dessin SVG original. Sources des premières herbes,
+issues de Pokémon Émeraude via pret/pokeemerald :
+[source et crédits](static/credits/emerald/CREDITS.md).
 
-Svelte 5 and SvelteKit, prerendered to static files with Tailwind for styling.
-There is no backend: settings live in `localStorage` and nothing leaves the
-device.
+L’absence de publicité ne donne pas automatiquement le droit de publier
+les images Pokémon. La licence du code et la politique communautaire ne
+remplacent pas les droits des titulaires de Pokémon. Projet de fan non officiel.
 
-Each scene is SVG in the DOM rather than video or canvas
-([docs/adr/0002](docs/adr/0002-svg-dom-scene.md)), so each animal is an
-ordinary element that CSS animates.
-
-The three decisions that matter most are pure functions with unit tests, so
-they can be checked without a microphone or a ten-second wait:
-
-- `src/lib/noise/loudState.ts` — the slow-in, fast-out hysteresis.
-- `src/lib/session/arrivalClock.ts` — banking quiet time, and pausing rather
-  than resetting.
-- `src/lib/session/roll.ts` — the weighted rarity roll.
-
-`CONTEXT.md` defines the vocabulary the code uses. `docs/` holds the
-architecture decisions, the implementation plan, and the brief for drawing the
-reef artwork, whose style rules the savanna, the forest, the jungle and the Arctic follow too; deep
-space, the prehistoric scene, the forest, the jungle and the Arctic each have their own section there.
+Le README d’origine est conservé dans
+[docs/SHY-SAFARI-README.md](docs/SHY-SAFARI-README.md).

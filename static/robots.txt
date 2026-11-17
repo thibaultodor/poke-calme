@@ -1,4 +1,3 @@
+# Modifié pour Poké Calme (2026), voir NOTICE.md.
 User-agent: *
 Allow: /
-
-Sitemap: https://www.shysafari.com/sitemap.xml

@@ -1,0 +1,107 @@
+html[data-scene="pokemon"],
+html:has(.scene-stage[data-scene="pokemon"]) body {
+  background: #a9cb85;
+}
+
+.scene-stage[data-scene="pokemon"] {
+  --pmd-pixel: max(1.7px, calc(0.17 * var(--wu)));
+  /* PMD cells share a centre, with the ground about 5 source pixels below. */
+  --pmd-feet: calc(5 * var(--pmd-pixel));
+}
+
+.scene-stage[data-scene="pokemon"] .backdrop > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.pmd-walker {
+  left: 0;
+  top: 0;
+  transform: translate3d(var(--pmd-x), var(--pmd-y), 0)
+    translate(-50%, calc(-50% - var(--pmd-feet))) scale(var(--pmd-depth));
+  transform-origin: 50% calc(50% + var(--pmd-feet));
+  will-change: transform;
+}
+
+.pmd-appearance {
+  width: 100%;
+  height: 100%;
+}
+.pmd-shadow {
+  position: absolute;
+  left: 32%;
+  right: 32%;
+  top: calc(50% + var(--pmd-feet));
+  height: 7%;
+  background: #365949;
+  opacity: 0.16;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+.pmd-encounter {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  transform: translate3d(var(--pmd-x), var(--pmd-y), 0) scale(var(--pmd-depth));
+  transform-origin: 0 0;
+}
+.pmd-encounter > svg {
+  position: absolute;
+  left: calc(-24 * var(--pmd-pixel));
+  top: calc(-64 * var(--pmd-pixel));
+  width: calc(48 * var(--pmd-pixel));
+  height: calc(80 * var(--pmd-pixel));
+}
+.pmd-snooze {
+  position: absolute;
+  left: 60%;
+  top: 8%;
+  width: calc(10 * var(--pmd-pixel));
+  height: calc(13 * var(--pmd-pixel));
+  fill: #f5ffe9;
+  filter: drop-shadow(1px 1px 0 #365949);
+}
+
+.scene-stage[data-scene="pokemon"] .too-loud-veil {
+  background: linear-gradient(#d9e4df88, #eff3e9);
+}
+.scene-stage[data-scene="pokemon"][data-murky="true"] {
+  filter: saturate(0.7);
+}
+.scene-stage[data-scene="pokemon"][data-murky="true"] .too-loud-veil {
+  opacity: 0.45;
+}
+
+.pmd-cloud {
+  position: absolute;
+  width: 11%;
+  height: 3%;
+  background: #fffdf1;
+  opacity: 0.4;
+  box-shadow:
+    12px -9px #fffdf1,
+    32px -5px #fffdf1;
+  animation: pmd-cloud-drift 90s ease-in-out infinite alternate;
+}
+.pmd-cloud-one {
+  top: 15%;
+  left: 13%;
+}
+.pmd-cloud-two {
+  top: 23%;
+  right: 18%;
+  animation-delay: -40s;
+}
+@keyframes pmd-cloud-drift {
+  to {
+    transform: translateX(60%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pmd-cloud {
+    animation: none;
+  }
+}

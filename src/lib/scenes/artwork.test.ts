@@ -1,3 +1,4 @@
+// Modifié pour Poké Calme (2026) : adaptation CP, voir NOTICE.md.
 /**
  * The mechanical half of the art brief's self-check (docs/svg-art-brief.md,
  * §7), for every Scene: the rules the animation layer and the shared
@@ -17,7 +18,8 @@ import { SAVANNA_ROSTER } from "./savanna/roster";
 import { SPACE_ROSTER } from "./space/roster";
 import { ANIMATABLE_PARTS, type CreatureDef, type SceneId } from "./types";
 
-const ROSTERS: Record<SceneId, CreatureDef[]> = {
+// PMD's PNG sheets have their own metadata and dimension tests.
+const ROSTERS: Record<Exclude<SceneId, "pokemon">, CreatureDef[]> = {
   savanna: SAVANNA_ROSTER,
   reef: REEF_ROSTER,
   space: SPACE_ROSTER,
